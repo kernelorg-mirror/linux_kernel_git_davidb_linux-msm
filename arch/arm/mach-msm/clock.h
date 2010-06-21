@@ -42,6 +42,7 @@ struct clk_ops {
 	int (*set_max_rate)(struct clk *clk, unsigned rate);
 	int (*set_flags)(struct clk *clk, unsigned flags);
 	unsigned (*get_rate)(struct clk *clk);
+	int (*list_rate)(struct clk *clk, unsigned n);
 	unsigned (*is_enabled)(struct clk *clk);
 	long (*round_rate)(struct clk *clk, unsigned rate);
 	int (*set_parent)(struct clk *clk, struct clk *parent);

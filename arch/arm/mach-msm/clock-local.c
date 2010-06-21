@@ -701,6 +701,17 @@ bool local_clk_is_local(struct clk *clk)
 	return true;
 }
 
+/* Return the nth supported frequency for a given clock. */
+int rcg_clk_list_rate(struct clk *c, unsigned n)
+{
+	struct rcg_clk *clk = to_rcg_clk(c);
+
+	if (!clk->freq_tbl || clk->freq_tbl->freq_hz == FREQ_END)
+		return -ENXIO;
+
+	return (clk->freq_tbl + n)->freq_hz;
+}
+
 struct clk *rcg_clk_get_parent(struct clk *clk)
 {
 	return to_rcg_clk(clk)->current_freq->src_clk;

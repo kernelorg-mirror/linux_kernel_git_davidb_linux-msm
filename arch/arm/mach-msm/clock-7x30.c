@@ -2763,6 +2763,7 @@ static struct clk_ops soc_clk_ops_7x30 = {
 	.set_min_rate = rcg_clk_set_min_rate,
 	.set_max_rate = rcg_clk_set_max_rate,
 	.get_rate = rcg_clk_get_rate,
+	.list_rate = rcg_clk_list_rate,
 	.is_enabled = rcg_clk_is_enabled,
 	.round_rate = rcg_clk_round_rate,
 	.reset = msm7x30_clk_reset,
