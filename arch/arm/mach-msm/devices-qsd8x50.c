@@ -29,6 +29,7 @@
 
 #include <linux/platform_data/mmc-msm_sdcc.h>
 #include "clock-pcom.h"
+#include "clock-voter.h"
 
 static struct resource resources_uart3[] = {
 	{
@@ -343,6 +344,14 @@ static DEFINE_CLK_PCOM(usb_hs3_clk,	USB_HS3_CLK,	OFF);
 static DEFINE_CLK_PCOM(usb_hs3_p_clk,	USB_HS3_P_CLK,	OFF);
 static DEFINE_CLK_PCOM(usb_phy_clk,	USB_PHY_CLK,	0);
 
+static DEFINE_CLK_VOTER(ebi1_acpu_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_kgsl_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_lcdc_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_mddi_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_tv_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_usb_clk,	&ebi1_clk.c);
+static DEFINE_CLK_VOTER(ebi1_vfe_clk,	&ebi1_clk.c);
+
 struct clk_lookup msm_clocks_8x50[] = {
 	CLK_LOOKUP("adm_clk",		adm_clk.c,	"msm_dmov"),
 	CLK_LOOKUP("ce_clk",		ce_clk.c,		NULL),
@@ -395,6 +404,14 @@ struct clk_lookup msm_clocks_8x50[] = {
 	CLK_LOOKUP("usb_hs3_clk",	usb_hs3_clk.c,	NULL),
 	CLK_LOOKUP("usb_hs3_pclk",	usb_hs3_p_clk.c,	NULL),
 	CLK_LOOKUP("usb_phy_clk",	usb_phy_clk.c,	NULL),
+
+	CLK_LOOKUP("ebi1_clk",		ebi1_acpu_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_kgsl_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_lcdc_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_mddi_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_tv_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_usb_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",		ebi1_vfe_clk.c,		NULL),
 };
 
 unsigned msm_num_clocks_8x50 = ARRAY_SIZE(msm_clocks_8x50);
