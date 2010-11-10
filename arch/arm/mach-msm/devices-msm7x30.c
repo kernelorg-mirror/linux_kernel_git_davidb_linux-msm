@@ -24,6 +24,7 @@
 #include <mach/board.h>
 
 #include "devices.h"
+#include "clock-voter.h"
 #include "smd_private.h"
 
 #include <asm/mach/flash.h>
@@ -210,6 +211,15 @@ static struct pcom_clk pbus_clk = {
 	},
 };
 
+static DEFINE_CLK_VOTER(ebi1_dtv_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_kgsl_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_lcdc_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_mddi_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_tv_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_usb_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_vcd_clk,	&pbus_clk.c);
+static DEFINE_CLK_VOTER(ebi1_vfe_clk,	&pbus_clk.c);
+
 struct clk_lookup msm_clocks_7x30[] = {
 	CLK_LOOKUP("adm_clk",			adm_clk.c,	"msm_dmov"),
 	CLK_LOOKUP("adsp_clk",			adsp_clk.c,	NULL),
@@ -284,6 +294,15 @@ struct clk_lookup msm_clocks_7x30[] = {
 	CLK_LOOKUP("csi_clk",			csi0_clk.c,	NULL),
 	CLK_LOOKUP("csi_pclk",			csi0_p_clk.c,	NULL),
 	CLK_LOOKUP("csi_vfe_clk",		csi0_vfe_clk.c,	NULL),
+
+	CLK_LOOKUP("ebi1_clk",	ebi1_dtv_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_kgsl_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_lcdc_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_mddi_clk.c,	NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_tv_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_usb_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_vcd_clk.c,		NULL),
+	CLK_LOOKUP("ebi1_clk",	ebi1_vfe_clk.c,		NULL),
 };
 
 unsigned msm_num_clocks_7x30 = ARRAY_SIZE(msm_clocks_7x30);
