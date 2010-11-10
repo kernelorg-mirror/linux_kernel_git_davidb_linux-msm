@@ -169,7 +169,6 @@ static DEFINE_CLK_PCOM(mi2s_codec_rx_m_clk,	MI2S_CODEC_RX_M_CLK,  0);
 static DEFINE_CLK_PCOM(mi2s_codec_rx_s_clk,	MI2S_CODEC_RX_S_CLK,  0);
 static DEFINE_CLK_PCOM(mi2s_codec_tx_m_clk,	MI2S_CODEC_TX_M_CLK,  0);
 static DEFINE_CLK_PCOM(mi2s_codec_tx_s_clk,	MI2S_CODEC_TX_S_CLK,  0);
-static DEFINE_CLK_PCOM(pbus_clk,	PBUS_CLK,		CLK_MIN);
 static DEFINE_CLK_PCOM(pcm_clk,		PCM_CLK,		0);
 static DEFINE_CLK_PCOM(axi_rotator_clk,	AXI_ROTATOR_CLK,	0);
 static DEFINE_CLK_PCOM(rotator_imem_clk, ROTATOR_IMEM_CLK,	OFF);
@@ -200,6 +199,16 @@ static DEFINE_CLK_PCOM(vpe_clk,		VPE_CLK,		0);
 static DEFINE_CLK_PCOM(csi0_clk,	CSI0_CLK,		0);
 static DEFINE_CLK_PCOM(csi0_p_clk,	CSI0_P_CLK,		0);
 static DEFINE_CLK_PCOM(csi0_vfe_clk,	CSI0_VFE_CLK,		0);
+
+static struct pcom_clk pbus_clk = {
+	.id = P_PBUS_CLK,
+	.c = {
+		.dbg_name = "pbus_clk",
+		.ops = &clk_ops_pcom_div2,
+		.flags = CLK_MIN,
+		CLK_INIT(pbus_clk.c),
+	},
+};
 
 struct clk_lookup msm_clocks_7x30[] = {
 	CLK_LOOKUP("adm_clk",			adm_clk.c,	"msm_dmov"),
