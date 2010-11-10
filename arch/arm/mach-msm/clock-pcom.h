@@ -122,6 +122,7 @@
 
 struct clk_ops;
 extern struct clk_ops clk_ops_pcom;
+extern struct clk_ops clk_ops_pcom_div2;
 
 /**
  * struct pcom_clk - proc_comm controlled clock
