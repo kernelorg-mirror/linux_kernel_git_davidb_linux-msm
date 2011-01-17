@@ -2426,6 +2426,244 @@ out:
 	return rc;
 }
 
+#ifdef CONFIG_DEBUG_FS
+
+#define CLK_TEST_2(s) (s)
+#define CLK_TEST_HS(s) (0x4000 | ((s) << 8))
+#define CLK_TEST_LS(s) (0x4D40 | (s))
+
+struct measure_sel {
+	u32 test_vector;
+	struct clk *clk;
+};
+
+static struct measure_sel measure_mux[] = {
+	{ CLK_TEST_2(0x03), &emdh_p_clk.c },
+	{ CLK_TEST_2(0x04), &pmdh_p_clk.c },
+	{ CLK_TEST_2(0x06), &mdp_p_clk.c },
+	{ CLK_TEST_2(0x07), &lpa_p_clk.c },
+	{ CLK_TEST_2(0x08), &usb_hs2_p_clk.c },
+	{ CLK_TEST_2(0x09), &spi_clk.c },
+	{ CLK_TEST_2(0x0A), &midi_clk.c },
+	{ CLK_TEST_2(0x0B), &i2c_2_clk.c },
+	{ CLK_TEST_2(0x0D), &mi2s_m_clk.c },
+	{ CLK_TEST_2(0x0E), &lpa_core_clk.c },
+	{ CLK_TEST_2(0x0F), &lpa_codec_clk.c },
+	{ CLK_TEST_2(0x10), &usb_hs3_p_clk.c },
+	{ CLK_TEST_2(0x11), &adm_p_clk.c },
+	{ CLK_TEST_2(0x13), &hdmi_clk.c },
+	{ CLK_TEST_2(0x14), &usb_hs_core_clk.c },
+	{ CLK_TEST_2(0x15), &usb_hs2_core_clk.c },
+	{ CLK_TEST_2(0x16), &usb_hs3_core_clk.c },
+	{ CLK_TEST_2(0x17), &mi2s_codec_tx_s_clk.c },
+	{ CLK_TEST_2(0x18), &spi_p_clk.c },
+	{ CLK_TEST_2(0x1A), &camif_pad_p_clk.c },
+	{ CLK_TEST_2(0x1C), &qup_i2c_clk.c },
+	{ CLK_TEST_2(0x1F), &mfc_div2_clk.c },
+	{ CLK_TEST_2(0x38), &mfc_clk.c },
+
+	{ CLK_TEST_HS(0x00), &adm_clk.c },
+	{ CLK_TEST_HS(0x01), &mdp_lcdc_pad_pclk_clk.c },
+	{ CLK_TEST_HS(0x02), &mdp_lcdc_pclk_clk.c },
+	{ CLK_TEST_HS(0x03), &axi_rotator_clk.c },
+	{ CLK_TEST_HS(0x07), &axi_li_vg_clk.c },
+	{ CLK_TEST_HS(0x09), &axi_li_apps_clk.c },
+	{ CLK_TEST_HS(0x0E), &axi_li_jpeg_clk.c },
+	{ CLK_TEST_HS(0x0F), &emdh_clk.c },
+	{ CLK_TEST_HS(0x14), &mdp_clk.c },
+	{ CLK_TEST_HS(0x15), &pmdh_clk.c },
+	{ CLK_TEST_HS(0x19), &axi_grp_2d_clk.c },
+	{ CLK_TEST_HS(0x1A), &axi_li_grp_clk.c },
+	{ CLK_TEST_HS(0x1B), &axi_li_vfe_clk.c },
+	{ CLK_TEST_HS(0x1C), &grp_2d_clk.c },
+	{ CLK_TEST_HS(0x1E), &grp_3d_clk.c },
+	{ CLK_TEST_HS(0x1F), &imem_clk.c },
+	{ CLK_TEST_HS(0x20), &jpeg_clk.c },
+	{ CLK_TEST_HS(0x24), &axi_li_adsp_a_clk.c },
+	{ CLK_TEST_HS(0x26), &rotator_imem_clk.c },
+	{ CLK_TEST_HS(0x27), &axi_vpe_clk.c },
+	{ CLK_TEST_HS(0x2A), &axi_mfc_clk.c },
+	{ CLK_TEST_HS(0x2B), &axi_mdp_clk.c },
+	{ CLK_TEST_HS(0x2C), &vpe_clk.c },
+	{ CLK_TEST_HS(0x30), &vfe_camif_clk.c },
+	{ CLK_TEST_HS(0x31), &csi0_clk.c },
+	{ CLK_TEST_HS(0x32), &csi0_vfe_clk.c },
+	{ CLK_TEST_HS(0x33), &csi0_p_clk.c },
+
+	{ CLK_TEST_LS(0x03), &ce_clk.c },
+	{ CLK_TEST_LS(0x04), &cam_m_clk.c },
+	{ CLK_TEST_LS(0x0C), &grp_2d_p_clk.c },
+	{ CLK_TEST_LS(0x0D), &i2c_clk.c },
+	{ CLK_TEST_LS(0x0E), &mi2s_codec_rx_m_clk.c },
+	{ CLK_TEST_LS(0x0F), &mi2s_codec_rx_s_clk.c },
+	{ CLK_TEST_LS(0x10), &mi2s_codec_tx_m_clk.c },
+	{ CLK_TEST_LS(0x13), &mdp_vsync_clk.c },
+	{ CLK_TEST_LS(0x15), &vfe_p_clk.c },
+	{ CLK_TEST_LS(0x16), &mdc_clk.c },
+	{ CLK_TEST_LS(0x17), &vfe_mdc_clk.c },
+	{ CLK_TEST_LS(0x18), &usb_hs_p_clk.c },
+	{ CLK_TEST_LS(0x1C), &uart1dm_p_clk.c },
+	{ CLK_TEST_LS(0x1E), &jpeg_p_clk.c },
+	{ CLK_TEST_LS(0x20), &sdac_clk.c },
+	{ CLK_TEST_LS(0x21), &sdc1_p_clk.c },
+	{ CLK_TEST_LS(0x22), &sdc1_clk.c },
+	{ CLK_TEST_LS(0x23), &sdc2_p_clk.c },
+	{ CLK_TEST_LS(0x24), &sdc2_clk.c },
+	{ CLK_TEST_LS(0x25), &tsif_p_clk.c },
+	{ CLK_TEST_LS(0x26), &sdac_m_clk.c },
+	{ CLK_TEST_LS(0x27), &grp_3d_p_clk.c },
+	{ CLK_TEST_LS(0x2A), &tsif_ref_clk.c },
+	{ CLK_TEST_LS(0x2B), &tv_enc_clk.c },
+	{ CLK_TEST_LS(0x2C), &tv_dac_clk.c },
+	{ CLK_TEST_LS(0x2D), &rotator_p_clk.c },
+	{ CLK_TEST_LS(0x2F), &uart1_clk.c },
+	{ CLK_TEST_LS(0x30), &uart1dm_clk.c },
+	{ CLK_TEST_LS(0x31), &uart2_clk.c },
+	{ CLK_TEST_LS(0x33), &usb_hs2_clk.c },
+	{ CLK_TEST_LS(0x34), &usb_hs3_clk.c },
+	{ CLK_TEST_LS(0x35), &mfc_p_clk.c },
+	{ CLK_TEST_LS(0x36), &vfe_clk.c },
+	{ CLK_TEST_LS(0x39), &sdc3_p_clk.c },
+	{ CLK_TEST_LS(0x3A), &sdc3_clk.c },
+	{ CLK_TEST_LS(0x3B), &sdc4_p_clk.c },
+	{ CLK_TEST_LS(0x3C), &sdc4_clk.c },
+	{ CLK_TEST_LS(0x3D), &uart2dm_clk.c },
+	{ CLK_TEST_LS(0x3E), &uart2dm_p_clk.c },
+	{ CLK_TEST_LS(0x3F), &usb_hs_clk.c },
+};
+
+static struct measure_sel *find_measure_sel(struct clk *clk)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(measure_mux); i++)
+		if (measure_mux[i].clk == clk)
+			return &measure_mux[i];
+	return NULL;
+}
+
+static int measure_clk_set_parent(struct clk *clk, struct clk *parent)
+{
+	struct measure_sel *p;
+	unsigned long flags;
+
+	if (!parent)
+		return -EINVAL;
+
+	p = find_measure_sel(parent);
+	if (!p)
+		return -EINVAL;
+
+	spin_lock_irqsave(&local_clock_reg_lock, flags);
+
+	/* Program test vector. */
+	if (p->test_vector <= 0xFF) {
+		/* Select CLK_TEST_2 */
+		writel_relaxed(0x4D40, CLK_TEST_BASE_REG);
+		writel_relaxed(p->test_vector, CLK_TEST_2_BASE_REG);
+	} else
+		writel_relaxed(p->test_vector, CLK_TEST_BASE_REG);
+
+	spin_unlock_irqrestore(&local_clock_reg_lock, flags);
+
+	return 0;
+}
+
+/* Sample clock for 'tcxo4_ticks' reference clock ticks. */
+static u32 run_measurement(unsigned tcxo4_ticks)
+{
+	/* TCXO4_CNT_EN and RINGOSC_CNT_EN register values. */
+	u32 reg_val_enable = readl_relaxed(MISC_CLK_CTL_BASE_REG) | 0x3;
+	u32 reg_val_disable = reg_val_enable & ~0x3;
+
+	/* Stop counters and set the TCXO4 counter start value. */
+	writel_relaxed(reg_val_disable, MISC_CLK_CTL_BASE_REG);
+	writel_relaxed(tcxo4_ticks, TCXO_CNT_BASE_REG);
+
+	/* Run measurement and wait for completion. */
+	writel_relaxed(reg_val_enable, MISC_CLK_CTL_BASE_REG);
+	while (readl_relaxed(TCXO_CNT_DONE_BASE_REG) == 0)
+		cpu_relax();
+
+	/* Stop counters. */
+	writel_relaxed(reg_val_disable, MISC_CLK_CTL_BASE_REG);
+
+	return readl_relaxed(RINGOSC_CNT_BASE_REG);
+}
+
+/* Perform a hardware rate measurement for a given clock.
+   FOR DEBUG USE ONLY: Measurements take ~15 ms! */
+static unsigned measure_clk_get_rate(struct clk *clk)
+{
+	unsigned long flags;
+	u32 regval, prph_web_reg_old;
+	u64 raw_count_short, raw_count_full;
+	unsigned ret;
+
+	clk_enable(&tcxo_clk.c);
+
+	spin_lock_irqsave(&local_clock_reg_lock, flags);
+
+	/* Enable TCXO4 clock branch and root. */
+	prph_web_reg_old = readl_relaxed(PRPH_WEB_NS_BASE_REG);
+	regval = prph_web_reg_old | BIT(9) | BIT(11);
+	writel_relaxed(regval, PRPH_WEB_NS_BASE_REG);
+
+	/*
+	 * The ring oscillator counter will not reset if the measured clock
+	 * is not running.  To detect this, run a short measurement before
+	 * the full measurement.  If the raw results of the two are the same
+	 * then the clock must be off.
+	 */
+
+	/* Run a short measurement. (~1 ms) */
+	raw_count_short = run_measurement(0x1000);
+	/* Run a full measurement. (~14 ms) */
+	raw_count_full = run_measurement(0x10000);
+
+	/* Disable TCXO4 clock branch and root. */
+	writel_relaxed(prph_web_reg_old, PRPH_WEB_NS_BASE_REG);
+
+	spin_unlock_irqrestore(&local_clock_reg_lock, flags);
+
+	/* Return 0 if the clock is off. */
+	if (raw_count_full == raw_count_short)
+		ret = 0;
+	else {
+		/* Compute rate in Hz. */
+		raw_count_full = ((raw_count_full * 10) + 15) * 4800000;
+		do_div(raw_count_full, ((0x10000 * 10) + 35));
+		ret = raw_count_full;
+	}
+
+	clk_disable(&tcxo_clk.c);
+
+	return ret;
+}
+#else /* !CONFIG_DEBUG_FS */
+static int measure_clk_set_parent(struct clk *clk, struct clk *parent)
+{
+	return -EINVAL;
+}
+
+static unsigned measure_clk_get_rate(struct clk *clk)
+{
+	return 0;
+}
+#endif /* CONFIG_DEBUG_FS */
+
+static struct clk_ops measure_clk_ops = {
+	.set_parent = measure_clk_set_parent,
+	.get_rate = measure_clk_get_rate,
+	.is_local = local_clk_is_local,
+};
+
+static struct clk measure_clk = {
+	.dbg_name = "measure_clk",
+	.ops = &measure_clk_ops,
+	CLK_INIT(measure_clk),
+};
+
 /* Implementation for clk_set_flags(). */
 int soc_clk_set_flags(struct clk *clk, unsigned clk_flags)
 {
@@ -2525,6 +2763,7 @@ static struct clk_local_ownership {
 	{ CLK_LOOKUP("pll1_clk",	pll1_clk.c,	"acpu") },
 	{ CLK_LOOKUP("pll2_clk",	pll2_clk.c,	"acpu") },
 	{ CLK_LOOKUP("pll3_clk",	pll3_clk.c,	"acpu") },
+	{ CLK_LOOKUP("measure",		measure_clk,	"debug") },
 
 	/* PCOM */
 	{ CLK_LOOKUP("adsp_clk",	adsp_clk.c,	NULL) },
