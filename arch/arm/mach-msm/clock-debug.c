@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Google, Inc.
- * Copyright (c) 2007-2010, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2007-2011, Code Aurora Forum. All rights reserved.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -50,6 +50,23 @@ static int clock_debug_rate_get(void *data, u64 *val)
 DEFINE_SIMPLE_ATTRIBUTE(clock_rate_fops, clock_debug_rate_get,
 			clock_debug_rate_set, "%llu\n");
 
+static struct clk *measure;
+
+static int clock_debug_measure_get(void *data, u64 *val)
+{
+	int ret;
+	struct clk *clock = data;
+
+	ret = clk_set_parent(measure, clock);
+	if (!ret)
+		*val = clk_get_rate(measure);
+
+	return ret;
+}
+
+DEFINE_SIMPLE_ATTRIBUTE(clock_measure_fops, clock_debug_measure_get,
+			NULL, "%lld\n");
+
 static int clock_debug_enable_set(void *data, u64 val)
 {
 	struct clk *clock = data;
@@ -96,10 +113,19 @@ static struct dentry *debugfs_base;
 
 int __init clock_debug_init(void)
 {
+	int ret = 0;
+
 	debugfs_base = debugfs_create_dir("clk", NULL);
 	if (!debugfs_base)
 		return -ENOMEM;
-	return 0;
+
+	measure = clk_get_sys("debug", "measure");
+	if (IS_ERR(measure)) {
+		ret = PTR_ERR(measure);
+		measure = NULL;
+	}
+
+	return ret;
 }
 
 static int list_rates_show(struct seq_file *m, void *unused)
@@ -151,6 +177,12 @@ int __init clock_debug_add(struct clk *clock)
 
 	if (!debugfs_create_file("is_local", S_IRUGO, clk_dir, clock,
 				&clock_local_fops))
+		goto error;
+
+	if (measure &&
+	    !clk_set_parent(measure, clock) &&
+	    !debugfs_create_file("measure", S_IRUGO, clk_dir, clock,
+				&clock_measure_fops))
 		goto error;
 
 	if (clock->ops->list_rate)
