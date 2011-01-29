@@ -55,8 +55,17 @@ struct clk {
 	uint32_t flags;
 	struct clk_ops *ops;
 	const char *dbg_name;
+
+	struct list_head children;
+	struct list_head siblings;
+
 	spinlock_t lock;
 };
+
+#define CLK_INIT(name) \
+	.lock = __SPIN_LOCK_UNLOCKED((name).lock), \
+	.children = LIST_HEAD_INIT((name).children), \
+	.siblings = LIST_HEAD_INIT((name).siblings)
 
 #define OFF CLKFLAG_AUTO_OFF
 #define CLK_MIN CLKFLAG_MIN

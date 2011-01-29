@@ -152,12 +152,6 @@ int clk_set_flags(struct clk *clk, unsigned long flags)
 }
 EXPORT_SYMBOL(clk_set_flags);
 
-/* EBI1 is the only shared clock that several clients want to vote on as of
- * this commit. If this changes in the future, then it might be better to
- * make clk_min_rate handle the voting or make ebi1_clk_set_min_rate more
- * generic to support different clocks.
- */
-static struct clk *ebi1_clk;
 static struct clk_lookup *msm_clocks;
 static unsigned msm_num_clocks;
 
@@ -165,13 +159,13 @@ void __init msm_clock_init(struct clk_lookup *clock_tbl, size_t num_clocks)
 {
 	unsigned n;
 
+	for (n = 0; n < num_clocks; n++) {
+		struct clk *clk = clock_tbl[n].clk;
+		struct clk *parent = clk_get_parent(clk);
+		clk_set_parent(clk, parent);
+	}
+
 	clkdev_add_table(clock_tbl, num_clocks);
-
-	for (n = 0; n < num_clocks; n++)
-		spin_lock_init(&clock_tbl[n].clk->lock);
-
-	ebi1_clk = clk_get(NULL, "ebi1_clk");
-	BUG_ON(ebi1_clk == NULL);
 
 	msm_clocks = clock_tbl;
 	msm_num_clocks = num_clocks;
