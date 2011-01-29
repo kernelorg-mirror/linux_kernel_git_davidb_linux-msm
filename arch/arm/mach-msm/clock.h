@@ -32,18 +32,18 @@
 #define CLKFLAG_MAX			0x00000800
 
 struct clk_ops {
-	int (*enable)(unsigned id);
-	void (*disable)(unsigned id);
-	void (*auto_off)(unsigned id);
-	int (*reset)(unsigned id, enum clk_reset_action action);
-	int (*set_rate)(unsigned id, unsigned rate);
-	int (*set_min_rate)(unsigned id, unsigned rate);
-	int (*set_max_rate)(unsigned id, unsigned rate);
-	int (*set_flags)(unsigned id, unsigned flags);
-	unsigned (*get_rate)(unsigned id);
-	unsigned (*is_enabled)(unsigned id);
-	long (*round_rate)(unsigned id, unsigned rate);
-	bool (*is_local)(unsigned id);
+	int (*enable)(struct clk *clk);
+	void (*disable)(struct clk *clk);
+	void (*auto_off)(struct clk *clk);
+	int (*reset)(struct clk *clk, enum clk_reset_action action);
+	int (*set_rate)(struct clk *clk, unsigned rate);
+	int (*set_min_rate)(struct clk *clk, unsigned rate);
+	int (*set_max_rate)(struct clk *clk, unsigned rate);
+	int (*set_flags)(struct clk *clk, unsigned flags);
+	unsigned (*get_rate)(struct clk *clk);
+	unsigned (*is_enabled)(struct clk *clk);
+	long (*round_rate)(struct clk *clk, unsigned rate);
+	bool (*is_local)(struct clk *clk);
 };
 
 struct clk {

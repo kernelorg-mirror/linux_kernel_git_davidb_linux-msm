@@ -35,7 +35,7 @@ int clk_enable(struct clk *clk)
 	spin_lock_irqsave(&clocks_lock, flags);
 	clk->count++;
 	if (clk->count == 1)
-		clk->ops->enable(clk->id);
+		clk->ops->enable(clk);
 	spin_unlock_irqrestore(&clocks_lock, flags);
 	return 0;
 }
@@ -48,20 +48,20 @@ void clk_disable(struct clk *clk)
 	BUG_ON(clk->count == 0);
 	clk->count--;
 	if (clk->count == 0)
-		clk->ops->disable(clk->id);
+		clk->ops->disable(clk);
 	spin_unlock_irqrestore(&clocks_lock, flags);
 }
 EXPORT_SYMBOL(clk_disable);
 
 int clk_reset(struct clk *clk, enum clk_reset_action action)
 {
-	return clk->ops->reset(clk->remote_id, action);
+	return clk->ops->reset(clk, action);
 }
 EXPORT_SYMBOL(clk_reset);
 
 unsigned long clk_get_rate(struct clk *clk)
 {
-	return clk->ops->get_rate(clk->id);
+	return clk->ops->get_rate(clk);
 }
 EXPORT_SYMBOL(clk_get_rate);
 
@@ -69,12 +69,12 @@ int clk_set_rate(struct clk *clk, unsigned long rate)
 {
 	int ret;
 	if (clk->flags & CLKFLAG_MAX) {
-		ret = clk->ops->set_max_rate(clk->id, rate);
+		ret = clk->ops->set_max_rate(clk, rate);
 		if (ret)
 			return ret;
 	}
 	if (clk->flags & CLKFLAG_MIN) {
-		ret = clk->ops->set_min_rate(clk->id, rate);
+		ret = clk->ops->set_min_rate(clk, rate);
 		if (ret)
 			return ret;
 	}
@@ -82,25 +82,25 @@ int clk_set_rate(struct clk *clk, unsigned long rate)
 	if (clk->flags & CLKFLAG_MAX || clk->flags & CLKFLAG_MIN)
 		return ret;
 
-	return clk->ops->set_rate(clk->id, rate);
+	return clk->ops->set_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_set_rate);
 
 long clk_round_rate(struct clk *clk, unsigned long rate)
 {
-	return clk->ops->round_rate(clk->id, rate);
+	return clk->ops->round_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_round_rate);
 
 int clk_set_min_rate(struct clk *clk, unsigned long rate)
 {
-	return clk->ops->set_min_rate(clk->id, rate);
+	return clk->ops->set_min_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_set_min_rate);
 
 int clk_set_max_rate(struct clk *clk, unsigned long rate)
 {
-	return clk->ops->set_max_rate(clk->id, rate);
+	return clk->ops->set_max_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_set_max_rate);
 
@@ -120,7 +120,7 @@ int clk_set_flags(struct clk *clk, unsigned long flags)
 {
 	if (clk == NULL || IS_ERR(clk))
 		return -EINVAL;
-	return clk->ops->set_flags(clk->id, flags);
+	return clk->ops->set_flags(clk, flags);
 }
 EXPORT_SYMBOL(clk_set_flags);
 
@@ -162,7 +162,7 @@ static int __init clock_late_init(void)
 			spin_lock_irqsave(&clocks_lock, flags);
 			if (!clk->count) {
 				count++;
-				clk->ops->auto_off(clk->id);
+				clk->ops->auto_off(clk);
 			}
 			spin_unlock_irqrestore(&clocks_lock, flags);
 		}

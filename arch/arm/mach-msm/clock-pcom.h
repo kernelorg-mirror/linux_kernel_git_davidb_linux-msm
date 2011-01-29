@@ -123,7 +123,7 @@
 struct clk_ops;
 extern struct clk_ops clk_ops_pcom;
 
-int pc_clk_reset(unsigned id, enum clk_reset_action action);
+int pc_clk_reset(struct clk *clk, enum clk_reset_action action);
 
 #define CLK_PCOM(clk_name, clk_id, clk_dev, clk_flags) {	\
 	.con_id = clk_name, \
