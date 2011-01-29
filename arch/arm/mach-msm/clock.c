@@ -104,13 +104,18 @@ EXPORT_SYMBOL(clk_set_max_rate);
 
 int clk_set_parent(struct clk *clk, struct clk *parent)
 {
+	if (clk->ops->set_parent)
+		return clk->ops->set_parent(clk, parent);
 	return -ENOSYS;
 }
 EXPORT_SYMBOL(clk_set_parent);
 
 struct clk *clk_get_parent(struct clk *clk)
 {
-	return ERR_PTR(-ENOSYS);
+	if (clk->ops->get_parent)
+		return clk->ops->get_parent(clk);
+
+	return NULL;
 }
 EXPORT_SYMBOL(clk_get_parent);
 
