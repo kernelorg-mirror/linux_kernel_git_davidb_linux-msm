@@ -44,6 +44,8 @@ struct clk_ops {
 	unsigned (*get_rate)(struct clk *clk);
 	unsigned (*is_enabled)(struct clk *clk);
 	long (*round_rate)(struct clk *clk, unsigned rate);
+	int (*set_parent)(struct clk *clk, struct clk *parent);
+	struct clk *(*get_parent)(struct clk *clk);
 	bool (*is_local)(struct clk *clk);
 };
 
