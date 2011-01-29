@@ -55,9 +55,9 @@ static int clock_debug_enable_set(void *data, u64 val)
 	int rc = 0;
 
 	if (val)
-		rc = clock->ops->enable(clock->id);
+		rc = clock->ops->enable(clock);
 	else
-		clock->ops->disable(clock->id);
+		clock->ops->disable(clock);
 
 	return rc;
 }
@@ -66,7 +66,7 @@ static int clock_debug_enable_get(void *data, u64 *val)
 {
 	struct clk *clock = data;
 
-	*val = clock->ops->is_enabled(clock->id);
+	*val = clock->ops->is_enabled(clock);
 
 	return 0;
 }
@@ -78,7 +78,7 @@ static int clock_debug_local_get(void *data, u64 *val)
 {
 	struct clk *clock = data;
 
-	*val = clock->ops->is_local(clock->id);
+	*val = clock->ops->is_local(clock);
 
 	return 0;
 }
