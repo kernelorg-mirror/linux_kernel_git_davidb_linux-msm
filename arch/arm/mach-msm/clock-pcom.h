@@ -145,7 +145,7 @@ static inline struct pcom_clk *to_pcom_clk(struct clk *clk)
 			.ops = &clk_ops_pcom, \
 			.flags = clk_flags, \
 			.dbg_name = #clk_id, \
-			.lock = __SPIN_LOCK_UNLOCKED(clk_name.c), \
+			CLK_INIT(clk_name.c), \
 		}, \
 	}
 
