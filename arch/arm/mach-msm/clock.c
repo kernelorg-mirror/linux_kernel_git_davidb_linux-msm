@@ -24,19 +24,17 @@
 
 #include "clock.h"
 
-static DEFINE_SPINLOCK(clocks_lock);
-
 /*
  * Standard clock functions defined in include/linux/clk.h
  */
 int clk_enable(struct clk *clk)
 {
 	unsigned long flags;
-	spin_lock_irqsave(&clocks_lock, flags);
+	spin_lock_irqsave(&clk->lock, flags);
 	clk->count++;
 	if (clk->count == 1)
 		clk->ops->enable(clk);
-	spin_unlock_irqrestore(&clocks_lock, flags);
+	spin_unlock_irqrestore(&clk->lock, flags);
 	return 0;
 }
 EXPORT_SYMBOL(clk_enable);
@@ -44,12 +42,12 @@ EXPORT_SYMBOL(clk_enable);
 void clk_disable(struct clk *clk)
 {
 	unsigned long flags;
-	spin_lock_irqsave(&clocks_lock, flags);
+	spin_lock_irqsave(&clk->lock, flags);
 	BUG_ON(clk->count == 0);
 	clk->count--;
 	if (clk->count == 0)
 		clk->ops->disable(clk);
-	spin_unlock_irqrestore(&clocks_lock, flags);
+	spin_unlock_irqrestore(&clk->lock, flags);
 }
 EXPORT_SYMBOL(clk_disable);
 
@@ -135,7 +133,12 @@ static unsigned msm_num_clocks;
 
 void __init msm_clock_init(struct clk_lookup *clock_tbl, size_t num_clocks)
 {
+	unsigned n;
+
 	clkdev_add_table(clock_tbl, num_clocks);
+
+	for (n = 0; n < num_clocks; n++)
+		spin_lock_init(&clock_tbl[n].clk->lock);
 
 	ebi1_clk = clk_get(NULL, "ebi1_clk");
 	BUG_ON(ebi1_clk == NULL);
@@ -159,12 +162,12 @@ static int __init clock_late_init(void)
 
 		clock_debug_add(clk);
 		if (clk->flags & CLKFLAG_AUTO_OFF) {
-			spin_lock_irqsave(&clocks_lock, flags);
+			spin_lock_irqsave(&clk->lock, flags);
 			if (!clk->count) {
 				count++;
 				clk->ops->auto_off(clk);
 			}
-			spin_unlock_irqrestore(&clocks_lock, flags);
+			spin_unlock_irqrestore(&clk->lock, flags);
 		}
 	}
 	pr_info("clock_late_init() disabled %d unused clocks\n", count);
