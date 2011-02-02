@@ -19,6 +19,7 @@
 
 #include <linux/init.h>
 #include <linux/list.h>
+#include <linux/spinlock.h>
 #include <mach/clk.h>
 
 #define CLKFLAG_INVERT			0x00000001
@@ -53,6 +54,7 @@ struct clk {
 	uint32_t flags;
 	struct clk_ops *ops;
 	const char *dbg_name;
+	spinlock_t lock;
 };
 
 #define OFF CLKFLAG_AUTO_OFF
