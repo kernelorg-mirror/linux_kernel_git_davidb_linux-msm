@@ -15,11 +15,8 @@
  */
 
 #include <linux/kernel.h>
-#include <linux/list.h>
 #include <linux/err.h>
 #include <linux/spinlock.h>
-#include <linux/pm_qos.h>
-#include <linux/mutex.h>
 #include <linux/clk.h>
 #include <linux/string.h>
 #include <linux/module.h>
@@ -27,9 +24,7 @@
 
 #include "clock.h"
 
-static DEFINE_MUTEX(clocks_mutex);
 static DEFINE_SPINLOCK(clocks_lock);
-static LIST_HEAD(clocks);
 
 /*
  * Standard clock functions defined in include/linux/clk.h
@@ -135,21 +130,18 @@ EXPORT_SYMBOL(clk_set_flags);
  * generic to support different clocks.
  */
 static struct clk *ebi1_clk;
+static struct clk_lookup *msm_clocks;
+static unsigned msm_num_clocks;
 
-void __init msm_clock_init(struct clk_lookup *clock_tbl, unsigned num_clocks)
+void __init msm_clock_init(struct clk_lookup *clock_tbl, size_t num_clocks)
 {
-	unsigned n;
-
-	mutex_lock(&clocks_mutex);
-	for (n = 0; n < num_clocks; n++) {
-		clkdev_add(&clock_tbl[n]);
-		list_add_tail(&clock_tbl[n].clk->list, &clocks);
-	}
-	mutex_unlock(&clocks_mutex);
+	clkdev_add_table(clock_tbl, num_clocks);
 
 	ebi1_clk = clk_get(NULL, "ebi1_clk");
 	BUG_ON(ebi1_clk == NULL);
 
+	msm_clocks = clock_tbl;
+	msm_num_clocks = num_clocks;
 }
 
 /* The bootloader and/or AMSS may have left various clocks enabled.
@@ -158,13 +150,13 @@ void __init msm_clock_init(struct clk_lookup *clock_tbl, unsigned num_clocks)
  */
 static int __init clock_late_init(void)
 {
+	unsigned i, count = 0;
 	unsigned long flags;
-	struct clk *clk;
-	unsigned count = 0;
 
 	clock_debug_init();
-	mutex_lock(&clocks_mutex);
-	list_for_each_entry(clk, &clocks, list) {
+	for (i = 0; i < msm_num_clocks; i++) {
+		struct clk *clk = msm_clocks[i].clk;
+
 		clock_debug_add(clk);
 		if (clk->flags & CLKFLAG_AUTO_OFF) {
 			spin_lock_irqsave(&clocks_lock, flags);
@@ -175,7 +167,6 @@ static int __init clock_late_init(void)
 			spin_unlock_irqrestore(&clocks_lock, flags);
 		}
 	}
-	mutex_unlock(&clocks_mutex);
 	pr_info("clock_late_init() disabled %d unused clocks\n", count);
 	return 0;
 }

@@ -53,7 +53,6 @@ struct clk {
 	uint32_t flags;
 	struct clk_ops *ops;
 	const char *dbg_name;
-	struct list_head list;
 };
 
 #define OFF CLKFLAG_AUTO_OFF
