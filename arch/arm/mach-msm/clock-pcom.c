@@ -27,7 +27,7 @@
  */
 static int pc_clk_enable(struct clk *clk)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	int rc = msm_proc_comm(PCOM_CLKCTL_RPC_ENABLE, &id, NULL);
 	if (rc < 0)
 		return rc;
@@ -37,14 +37,14 @@ static int pc_clk_enable(struct clk *clk)
 
 static void pc_clk_disable(struct clk *clk)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	msm_proc_comm(PCOM_CLKCTL_RPC_DISABLE, &id, NULL);
 }
 
 int pc_clk_reset(struct clk *clk, enum clk_reset_action action)
 {
 	int rc;
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 
 	if (action == CLK_RESET_ASSERT)
 		rc = msm_proc_comm(PCOM_CLKCTL_RPC_RESET_ASSERT, &id, NULL);
@@ -63,7 +63,7 @@ static int pc_clk_set_rate(struct clk *clk, unsigned rate)
 	 * remote function. So a return value of 0 doesn't necessarily mean
 	 * that the exact rate was set successfully.
 	 */
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	int rc = msm_proc_comm(PCOM_CLKCTL_RPC_SET_RATE, &id, &rate);
 	if (rc < 0)
 		return rc;
@@ -73,7 +73,7 @@ static int pc_clk_set_rate(struct clk *clk, unsigned rate)
 
 static int pc_clk_set_min_rate(struct clk *clk, unsigned rate)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	int rc = msm_proc_comm(PCOM_CLKCTL_RPC_MIN_RATE, &id, &rate);
 	if (rc < 0)
 		return rc;
@@ -83,7 +83,7 @@ static int pc_clk_set_min_rate(struct clk *clk, unsigned rate)
 
 static int pc_clk_set_max_rate(struct clk *clk, unsigned rate)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	int rc = msm_proc_comm(PCOM_CLKCTL_RPC_MAX_RATE, &id, &rate);
 	if (rc < 0)
 		return rc;
@@ -93,7 +93,7 @@ static int pc_clk_set_max_rate(struct clk *clk, unsigned rate)
 
 static int pc_clk_set_flags(struct clk *clk, unsigned flags)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	int rc = msm_proc_comm(PCOM_CLKCTL_RPC_SET_FLAGS, &id, &flags);
 	if (rc < 0)
 		return rc;
@@ -103,7 +103,7 @@ static int pc_clk_set_flags(struct clk *clk, unsigned flags)
 
 static unsigned pc_clk_get_rate(struct clk *clk)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	if (msm_proc_comm(PCOM_CLKCTL_RPC_RATE, &id, NULL))
 		return 0;
 	else
@@ -112,7 +112,7 @@ static unsigned pc_clk_get_rate(struct clk *clk)
 
 static unsigned pc_clk_is_enabled(struct clk *clk)
 {
-	unsigned id = clk->id;
+	unsigned id = to_pcom_clk(clk)->id;
 	if (msm_proc_comm(PCOM_CLKCTL_RPC_ENABLED, &id, NULL))
 		return 0;
 	else
