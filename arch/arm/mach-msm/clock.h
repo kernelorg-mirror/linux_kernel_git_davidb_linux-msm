@@ -48,7 +48,6 @@ struct clk_ops {
 };
 
 struct clk {
-	uint32_t id;
 	uint32_t remote_id;
 	uint32_t count;
 	uint32_t flags;
@@ -70,4 +69,5 @@ static inline int __init clock_debug_init(void) { return 0; }
 static inline int __init clock_debug_add(struct clk *clock) { return 0; }
 #endif
 
+#define CLK_LOOKUP(con, c, dev) { .con_id = con, .clk = &c, .dev_id = dev }
 #endif

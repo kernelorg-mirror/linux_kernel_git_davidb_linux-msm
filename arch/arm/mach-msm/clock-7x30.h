@@ -140,16 +140,4 @@ extern int internal_pwr_rail_ctl_auto(unsigned rail_id, bool enable);
 	}, \
 	}
 
-#define CLK_7X30S(clk_name, l_id, r_id, clk_dev, clk_flags) {	\
-	.con_id = clk_name, \
-	.dev_id = clk_dev, \
-	.clk = &(struct clk){ \
-		.id = L_7X30_##l_id, \
-		.remote_id = P_##r_id, \
-		.flags = clk_flags, \
-		.dbg_name = #l_id, \
-		.ops = &clk_ops_pcom, \
-	}, \
-	}
-
 #endif
