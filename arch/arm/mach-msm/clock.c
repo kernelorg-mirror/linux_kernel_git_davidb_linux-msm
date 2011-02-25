@@ -29,24 +29,49 @@
  */
 int clk_enable(struct clk *clk)
 {
+	int ret = 0;
 	unsigned long flags;
+	struct clk *parent;
+
+	if (!clk)
+		return 0;
+
 	spin_lock_irqsave(&clk->lock, flags);
+	if (clk->count == 0) {
+		parent = clk_get_parent(clk);
+		ret = clk_enable(parent);
+		if (ret)
+			goto out;
+
+		ret = clk->ops->enable(clk);
+		if (ret) {
+			clk_disable(parent);
+			goto out;
+		}
+	}
 	clk->count++;
-	if (clk->count == 1)
-		clk->ops->enable(clk);
+out:
 	spin_unlock_irqrestore(&clk->lock, flags);
-	return 0;
+	return ret;
 }
 EXPORT_SYMBOL(clk_enable);
 
 void clk_disable(struct clk *clk)
 {
 	unsigned long flags;
+	struct clk *parent;
+
+	if (!clk)
+		return;
+
 	spin_lock_irqsave(&clk->lock, flags);
 	BUG_ON(clk->count == 0);
 	clk->count--;
-	if (clk->count == 0)
+	if (clk->count == 0) {
 		clk->ops->disable(clk);
+		parent = clk_get_parent(clk);
+		clk_disable(parent);
+	}
 	spin_unlock_irqrestore(&clk->lock, flags);
 }
 EXPORT_SYMBOL(clk_disable);
