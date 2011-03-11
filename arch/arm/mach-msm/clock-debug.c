@@ -55,9 +55,9 @@ static int clock_debug_enable_set(void *data, u64 val)
 	int rc = 0;
 
 	if (val)
-		rc = clock->ops->enable(clock);
+		rc = clk_enable(clock);
 	else
-		clock->ops->disable(clock);
+		clk_disable(clock);
 
 	return rc;
 }
