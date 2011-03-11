@@ -1,7 +1,7 @@
 /* arch/arm/mach-msm/clock.c
  *
  * Copyright (C) 2007 Google, Inc.
- * Copyright (c) 2007-2010, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2007-2011, Code Aurora Forum. All rights reserved.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -43,7 +43,8 @@ int clk_enable(struct clk *clk)
 		if (ret)
 			goto out;
 
-		ret = clk->ops->enable(clk);
+		if (clk->ops->enable)
+			ret = clk->ops->enable(clk);
 		if (ret) {
 			clk_disable(parent);
 			goto out;
@@ -68,7 +69,8 @@ void clk_disable(struct clk *clk)
 	BUG_ON(clk->count == 0);
 	clk->count--;
 	if (clk->count == 0) {
-		clk->ops->disable(clk);
+		if (clk->ops->disable)
+			clk->ops->disable(clk);
 		parent = clk_get_parent(clk);
 		clk_disable(parent);
 	}
@@ -78,12 +80,18 @@ EXPORT_SYMBOL(clk_disable);
 
 int clk_reset(struct clk *clk, enum clk_reset_action action)
 {
+	if (!clk->ops->reset)
+		return -ENOSYS;
+
 	return clk->ops->reset(clk, action);
 }
 EXPORT_SYMBOL(clk_reset);
 
 unsigned long clk_get_rate(struct clk *clk)
 {
+	if (!clk->ops->get_rate)
+		return 0;
+
 	return clk->ops->get_rate(clk);
 }
 EXPORT_SYMBOL(clk_get_rate);
@@ -91,6 +99,10 @@ EXPORT_SYMBOL(clk_get_rate);
 int clk_set_rate(struct clk *clk, unsigned long rate)
 {
 	int ret;
+
+	if (!clk->ops->set_rate)
+		return -ENOSYS;
+
 	if (clk->flags & CLKFLAG_MAX) {
 		ret = clk->ops->set_max_rate(clk, rate);
 		if (ret)
@@ -111,36 +123,46 @@ EXPORT_SYMBOL(clk_set_rate);
 
 long clk_round_rate(struct clk *clk, unsigned long rate)
 {
+	if (!clk->ops->round_rate)
+		return -ENOSYS;
+
 	return clk->ops->round_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_round_rate);
 
 int clk_set_min_rate(struct clk *clk, unsigned long rate)
 {
+	if (!clk->ops->set_min_rate)
+		return -ENOSYS;
+
 	return clk->ops->set_min_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_set_min_rate);
 
 int clk_set_max_rate(struct clk *clk, unsigned long rate)
 {
+	if (!clk->ops->set_max_rate)
+		return -ENOSYS;
+
 	return clk->ops->set_max_rate(clk, rate);
 }
 EXPORT_SYMBOL(clk_set_max_rate);
 
 int clk_set_parent(struct clk *clk, struct clk *parent)
 {
-	if (clk->ops->set_parent)
-		return clk->ops->set_parent(clk, parent);
-	return -ENOSYS;
+	if (!clk->ops->set_parent)
+		return 0;
+
+	return clk->ops->set_parent(clk, parent);
 }
 EXPORT_SYMBOL(clk_set_parent);
 
 struct clk *clk_get_parent(struct clk *clk)
 {
-	if (clk->ops->get_parent)
-		return clk->ops->get_parent(clk);
+	if (!clk->ops->get_parent)
+		return NULL;
 
-	return NULL;
+	return clk->ops->get_parent(clk);
 }
 EXPORT_SYMBOL(clk_get_parent);
 
@@ -148,6 +170,9 @@ int clk_set_flags(struct clk *clk, unsigned long flags)
 {
 	if (clk == NULL || IS_ERR(clk))
 		return -EINVAL;
+	if (!clk->ops->set_flags)
+		return -ENOSYS;
+
 	return clk->ops->set_flags(clk, flags);
 }
 EXPORT_SYMBOL(clk_set_flags);
