@@ -65,9 +65,14 @@ static int clock_debug_enable_set(void *data, u64 val)
 static int clock_debug_enable_get(void *data, u64 *val)
 {
 	struct clk *clock = data;
+	int enabled;
 
-	*val = clock->ops->is_enabled(clock);
+	if (clock->ops->is_enabled)
+		enabled = clock->ops->is_enabled(clock);
+	else
+		enabled = !!(clock->count);
 
+	*val = enabled;
 	return 0;
 }
 
