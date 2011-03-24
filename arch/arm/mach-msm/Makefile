@@ -5,6 +5,7 @@ obj-y += clock-dummy.o
 obj-$(CONFIG_DEBUG_FS) += clock-debug.o
 obj-$(CONFIG_ARCH_MSM7X30) += clock-local.o clock-7x30.o
 obj-$(CONFIG_ARCH_MSM8X60) += clock-local.o clock-8x60.o
+obj-$(CONFIG_ARCH_MSM8960) += clock-local.o clock-8960.o
 
 obj-$(CONFIG_MSM_VIC) += irq-vic.o
 obj-$(CONFIG_MSM_IOMMU) += devices-iommu.o
