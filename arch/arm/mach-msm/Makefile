@@ -1,6 +1,7 @@
 obj-y += io.o idle.o timer.o
 obj-y += clock.o
 obj-y += clock-voter.o
+obj-y += clock-dummy.o
 obj-$(CONFIG_DEBUG_FS) += clock-debug.o
 obj-$(CONFIG_ARCH_MSM7X30) += clock-local.o clock-7x30.o
 obj-$(CONFIG_ARCH_MSM8X60) += clock-local.o clock-8x60.o

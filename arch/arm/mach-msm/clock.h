@@ -87,5 +87,14 @@ static inline int __init clock_debug_init(void) { return 0; }
 static inline int __init clock_debug_add(struct clk *clock) { return 0; }
 #endif
 
+extern struct clk dummy_clk;
+
+#define CLK_DUMMY(clk_name, clk_id, clk_dev) {	\
+	.con_id = clk_name, \
+	.dev_id = clk_dev, \
+	.clk = &dummy_clk, \
+	}
+
 #define CLK_LOOKUP(con, c, dev) { .con_id = con, .clk = &c, .dev_id = dev }
+
 #endif
