@@ -27,6 +27,7 @@
 
 #include <mach/board.h>
 #include <mach/msm_iomap.h>
+#include "devices.h"
 
 static void __init msm8x60_fixup(struct tag *tag, char **cmdline,
 		struct meminfo *mi)
@@ -47,6 +48,11 @@ static void __init msm8x60_reserve(void)
 static void __init msm8x60_map_io(void)
 {
 	msm_map_msm8x60_io();
+}
+
+static void __init msm8x60_init_early(void)
+{
+	msm_clock_init(msm_clocks_8x60, msm_num_clocks_8x60);
 }
 
 static void __init msm8x60_init_irq(void)
@@ -107,6 +113,7 @@ MACHINE_START(MSM8X60_RUMI3, "QCT MSM8X60 RUMI3")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -117,6 +124,7 @@ MACHINE_START(MSM8X60_SURF, "QCT MSM8X60 SURF")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -127,6 +135,7 @@ MACHINE_START(MSM8X60_SIM, "QCT MSM8X60 SIMULATOR")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -137,6 +146,7 @@ MACHINE_START(MSM8X60_FFA, "QCT MSM8X60 FFA")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
