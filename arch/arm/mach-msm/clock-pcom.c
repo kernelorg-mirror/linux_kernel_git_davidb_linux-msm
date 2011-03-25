@@ -41,10 +41,9 @@ static void pc_clk_disable(struct clk *clk)
 	msm_proc_comm(PCOM_CLKCTL_RPC_DISABLE, &id, NULL);
 }
 
-int pc_clk_reset(struct clk *clk, enum clk_reset_action action)
+int pc_clk_reset(unsigned id, enum clk_reset_action action)
 {
 	int rc;
-	unsigned id = to_pcom_clk(clk)->id;
 
 	if (action == CLK_RESET_ASSERT)
 		rc = msm_proc_comm(PCOM_CLKCTL_RPC_RESET_ASSERT, &id, NULL);
@@ -55,6 +54,12 @@ int pc_clk_reset(struct clk *clk, enum clk_reset_action action)
 		return rc;
 	else
 		return (int)id < 0 ? -EINVAL : 0;
+}
+
+static int pc_reset(struct clk *clk, enum clk_reset_action action)
+{
+	unsigned id = to_pcom_clk(clk)->id;
+	return pc_clk_reset(id, action);
 }
 
 static int pc_clk_set_rate(struct clk *clk, unsigned rate)
@@ -135,7 +140,7 @@ struct clk_ops clk_ops_pcom = {
 	.enable = pc_clk_enable,
 	.disable = pc_clk_disable,
 	.auto_off = pc_clk_disable,
-	.reset = pc_clk_reset,
+	.reset = pc_reset,
 	.set_rate = pc_clk_set_rate,
 	.set_min_rate = pc_clk_set_min_rate,
 	.set_max_rate = pc_clk_set_max_rate,
@@ -165,7 +170,7 @@ struct clk_ops clk_ops_pcom_div2 = {
 	.enable = pc_clk_enable,
 	.disable = pc_clk_disable,
 	.auto_off = pc_clk_disable,
-	.reset = pc_clk_reset,
+	.reset = pc_reset,
 	.set_rate = pc_clk_set_rate2,
 	.set_min_rate = pc_clk_set_min_rate2,
 	.set_flags = pc_clk_set_flags,
