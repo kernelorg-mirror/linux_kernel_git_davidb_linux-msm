@@ -72,6 +72,12 @@ struct clk {
 #define CLK_MAX CLKFLAG_MAX
 #define CLK_MINMAX (CLK_MIN | CLK_MAX)
 
+#if defined(CONFIG_ARCH_MSM7X30)
+void __init msm_clk_soc_init(void);
+#else
+static inline void __init msm_clk_soc_init(void) { }
+#endif
+
 #ifdef CONFIG_DEBUG_FS
 int __init clock_debug_init(void);
 int __init clock_debug_add(struct clk *clock);

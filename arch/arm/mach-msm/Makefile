@@ -2,6 +2,7 @@ obj-y += io.o idle.o timer.o
 obj-y += clock.o
 obj-y += clock-voter.o
 obj-$(CONFIG_DEBUG_FS) += clock-debug.o
+obj-$(CONFIG_ARCH_MSM7X30) += clock-local.o clock-7x30.o
 
 obj-$(CONFIG_MSM_VIC) += irq-vic.o
 obj-$(CONFIG_MSM_IOMMU) += devices-iommu.o
