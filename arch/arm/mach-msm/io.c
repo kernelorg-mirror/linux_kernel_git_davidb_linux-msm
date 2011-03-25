@@ -114,6 +114,9 @@ static struct map_desc msm8x60_io_desc[] __initdata = {
 #ifdef CONFIG_DEBUG_MSM8660_UART
 	MSM_DEVICE(DEBUG_UART),
 #endif
+	MSM_DEVICE(CLK_CTL),
+	MSM_DEVICE(MMSS_CLK_CTL),
+	MSM_DEVICE(LPASS_CLK_CTL),
 };
 
 void __init msm_map_msm8x60_io(void)

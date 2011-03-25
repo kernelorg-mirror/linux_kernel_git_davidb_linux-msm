@@ -72,7 +72,7 @@ struct clk {
 #define CLK_MAX CLKFLAG_MAX
 #define CLK_MINMAX (CLK_MIN | CLK_MAX)
 
-#if defined(CONFIG_ARCH_MSM7X30)
+#if defined(CONFIG_ARCH_MSM7X30) || defined(CONFIG_ARCH_MSM8X60)
 void __init msm_clk_soc_init(void);
 #else
 static inline void __init msm_clk_soc_init(void) { }
