@@ -120,6 +120,8 @@
 
 #define P_NR_CLKS		102
 
+extern int pc_clk_reset(unsigned id, enum clk_reset_action action);
+
 struct clk_ops;
 extern struct clk_ops clk_ops_pcom;
 extern struct clk_ops clk_ops_pcom_div2;
