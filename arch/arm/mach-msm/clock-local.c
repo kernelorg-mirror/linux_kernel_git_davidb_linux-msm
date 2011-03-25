@@ -81,10 +81,184 @@ void set_rate_nop(struct rcg_clk *clk, struct clk_freq_tbl *nf)
 	 */
 }
 
-int (*soc_update_sys_vdd)(enum sys_vdd_level level);
+void set_rate_mnd_8(struct rcg_clk *clk, struct clk_freq_tbl *nf)
+{
+	u32 ctl_reg_val;
+
+	/* Assert MND reset. */
+	ctl_reg_val = readl_relaxed(clk->b.ctl_reg);
+	ctl_reg_val |= BIT(8);
+	writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+
+	/* Program M and D values. */
+	writel_relaxed(nf->md_val, clk->md_reg);
+
+	/* Program MN counter Enable and Mode. */
+	ctl_reg_val &= ~(clk->ctl_mask);
+	ctl_reg_val |= nf->ctl_val;
+	writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+
+	/* Deassert MND reset. */
+	ctl_reg_val &= ~BIT(8);
+	writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+}
+
+void set_rate_mnd_banked(struct rcg_clk *clk, struct clk_freq_tbl *nf)
+{
+	struct bank_masks *banks = clk->bank_masks;
+	const struct bank_mask_info *new_bank_masks;
+	const struct bank_mask_info *old_bank_masks;
+	u32 ns_reg_val, ctl_reg_val;
+	u32 bank_sel;
+
+	/*
+	 * Determine active bank and program the other one. If the clock is
+	 * off, program the active bank since bank switching won't work if
+	 * both banks aren't running.
+	 */
+	ctl_reg_val = readl_relaxed(clk->b.ctl_reg);
+	bank_sel = !!(ctl_reg_val & banks->bank_sel_mask);
+	 /* If clock isn't running, don't switch banks. */
+	bank_sel ^= (!clk->enabled || clk->current_freq->freq_hz == 0);
+	if (bank_sel == 0) {
+		new_bank_masks = &banks->bank1_mask;
+		old_bank_masks = &banks->bank0_mask;
+	} else {
+		new_bank_masks = &banks->bank0_mask;
+		old_bank_masks = &banks->bank1_mask;
+	}
+
+	ns_reg_val = readl_relaxed(clk->ns_reg);
+
+	/* Assert bank MND reset. */
+	ns_reg_val |= new_bank_masks->rst_mask;
+	writel_relaxed(ns_reg_val, clk->ns_reg);
+
+	/*
+	 * Program NS only if the clock is enabled, since the NS will be set
+	 * as part of the enable procedure and should remain with a low-power
+	 * MUX input selected until then.
+	 */
+	if (clk->enabled) {
+		ns_reg_val &= ~(new_bank_masks->ns_mask);
+		ns_reg_val |= (nf->ns_val & new_bank_masks->ns_mask);
+		writel_relaxed(ns_reg_val, clk->ns_reg);
+	}
+
+	writel_relaxed(nf->md_val, new_bank_masks->md_reg);
+
+	/* Enable counter only if clock is enabled. */
+	if (clk->enabled)
+		ctl_reg_val |= new_bank_masks->mnd_en_mask;
+	else
+		ctl_reg_val &= ~(new_bank_masks->mnd_en_mask);
+
+	ctl_reg_val &= ~(new_bank_masks->mode_mask);
+	ctl_reg_val |= (nf->ctl_val & new_bank_masks->mode_mask);
+	writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+
+	/* Deassert bank MND reset. */
+	ns_reg_val &= ~(new_bank_masks->rst_mask);
+	writel_relaxed(ns_reg_val, clk->ns_reg);
+
+	/*
+	 * Switch to the new bank if clock is running.  If it isn't, then
+	 * no switch is necessary since we programmed the active bank.
+	 */
+	if (clk->enabled && clk->current_freq->freq_hz) {
+		ctl_reg_val ^= banks->bank_sel_mask;
+		writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+		/*
+		 * Wait at least 6 cycles of slowest bank's clock
+		 * for the glitch-free MUX to fully switch sources.
+		 */
+		mb();
+		udelay(1);
+
+		/* Disable old bank's MN counter. */
+		ctl_reg_val &= ~(old_bank_masks->mnd_en_mask);
+		writel_relaxed(ctl_reg_val, clk->b.ctl_reg);
+
+		/* Program old bank to a low-power source and divider. */
+		ns_reg_val &= ~(old_bank_masks->ns_mask);
+		ns_reg_val |= (clk->freq_tbl->ns_val & old_bank_masks->ns_mask);
+		writel_relaxed(ns_reg_val, clk->ns_reg);
+	}
+
+	/*
+	 * If this freq requires the MN counter to be enabled,
+	 * update the enable mask to match the current bank.
+	 */
+	if (nf->mnd_en_mask)
+		nf->mnd_en_mask = new_bank_masks->mnd_en_mask;
+	/* Update the NS mask to match the current bank. */
+	clk->ns_mask = new_bank_masks->ns_mask;
+}
+
+void set_rate_div_banked(struct rcg_clk *clk, struct clk_freq_tbl *nf)
+{
+	struct bank_masks *banks = clk->bank_masks;
+	const struct bank_mask_info *new_bank_masks;
+	const struct bank_mask_info *old_bank_masks;
+	u32 ns_reg_val, bank_sel;
+
+	/*
+	 * Determine active bank and program the other one. If the clock is
+	 * off, program the active bank since bank switching won't work if
+	 * both banks aren't running.
+	 */
+	ns_reg_val = readl_relaxed(clk->ns_reg);
+	bank_sel = !!(ns_reg_val & banks->bank_sel_mask);
+	 /* If clock isn't running, don't switch banks. */
+	bank_sel ^= (!clk->enabled || clk->current_freq->freq_hz == 0);
+	if (bank_sel == 0) {
+		new_bank_masks = &banks->bank1_mask;
+		old_bank_masks = &banks->bank0_mask;
+	} else {
+		new_bank_masks = &banks->bank0_mask;
+		old_bank_masks = &banks->bank1_mask;
+	}
+
+	/*
+	 * Program NS only if the clock is enabled, since the NS will be set
+	 * as part of the enable procedure and should remain with a low-power
+	 * MUX input selected until then.
+	 */
+	if (clk->enabled) {
+		ns_reg_val &= ~(new_bank_masks->ns_mask);
+		ns_reg_val |= (nf->ns_val & new_bank_masks->ns_mask);
+		writel_relaxed(ns_reg_val, clk->ns_reg);
+	}
+
+	/*
+	 * Switch to the new bank if clock is running.  If it isn't, then
+	 * no switch is necessary since we programmed the active bank.
+	 */
+	if (clk->enabled && clk->current_freq->freq_hz) {
+		ns_reg_val ^= banks->bank_sel_mask;
+		writel_relaxed(ns_reg_val, clk->ns_reg);
+		/*
+		 * Wait at least 6 cycles of slowest bank's clock
+		 * for the glitch-free MUX to fully switch sources.
+		 */
+		mb();
+		udelay(1);
+
+		/* Program old bank to a low-power source and divider. */
+		ns_reg_val &= ~(old_bank_masks->ns_mask);
+		ns_reg_val |= (clk->freq_tbl->ns_val & old_bank_masks->ns_mask);
+		writel_relaxed(ns_reg_val, clk->ns_reg);
+	}
+
+	/* Update the NS mask to match the current bank. */
+	clk->ns_mask = new_bank_masks->ns_mask;
+}
+
 /*
  * SYS_VDD voting functions
  */
+
+int (*soc_update_sys_vdd)(enum sys_vdd_level level);
 
 /* Update system voltage level given the current votes. */
 static int local_update_sys_vdd(void)
@@ -392,17 +566,22 @@ static int _rcg_clk_set_rate(struct rcg_clk *clk, struct clk_freq_tbl *nf)
 
 	spin_lock(&local_clock_reg_lock);
 
-	/* Disable all branches to prevent glitches. */
-	list_for_each_entry(chld, &clk->c.children, siblings) {
-		struct branch_clk *x = to_branch_clk(chld);
-		/* Don't bother turning off if it is already off.
-		 * Checking ch->enabled is cheaper (cache) than reading
-		 * and writing to a register (uncached/unbuffered). */
-		if (x->enabled)
-			__branch_clk_disable_reg(&x->b, x->c.dbg_name);
+	/* Disable branch if clock isn't dual-banked with a glitch-free MUX. */
+	if (clk->bank_masks == NULL) {
+		/* Disable all branches to prevent glitches. */
+		list_for_each_entry(chld, &clk->c.children, siblings) {
+			struct branch_clk *x = to_branch_clk(chld);
+			/*
+			 * We don't need to grab the child's lock because
+			 * we hold the local_clock_reg_lock and 'enabled' is
+			 * only modified within lock.
+			 */
+			if (x->enabled)
+				__branch_clk_disable_reg(&x->b, x->c.dbg_name);
+		}
+		if (clk->enabled)
+			__rcg_clk_disable_reg(clk);
 	}
-	if (clk->enabled)
-		__rcg_clk_disable_reg(clk);
 
 	/* Perform clock-specific frequency switch operations. */
 	BUG_ON(!clk->set_rate);
@@ -414,13 +593,16 @@ static int _rcg_clk_set_rate(struct rcg_clk *clk, struct clk_freq_tbl *nf)
 	 */
 	clk->current_freq = nf;
 
-	if (clk->enabled)
-		__rcg_clk_enable_reg(clk);
-	/* Enable only branches that were ON before. */
-	list_for_each_entry(chld, &clk->c.children, siblings) {
-		struct branch_clk *x = to_branch_clk(chld);
-		if (x->enabled)
-			__branch_clk_enable_reg(&x->b, x->c.dbg_name);
+	/* Enable any clocks that were disabled. */
+	if (clk->bank_masks == NULL) {
+		if (clk->enabled)
+			__rcg_clk_enable_reg(clk);
+		/* Enable only branches that were ON before. */
+		list_for_each_entry(chld, &clk->c.children, siblings) {
+			struct branch_clk *x = to_branch_clk(chld);
+			if (x->enabled)
+				__branch_clk_enable_reg(&x->b, x->c.dbg_name);
+		}
 	}
 
 	spin_unlock(&local_clock_reg_lock);
@@ -580,6 +762,78 @@ struct clk_ops clk_ops_pll_vote = {
 	.is_enabled = pll_vote_clk_is_enabled,
 	.get_rate = pll_vote_clk_get_rate,
 	.get_parent = pll_vote_clk_get_parent,
+	.is_local = local_clk_is_local,
+};
+
+static int pll_clk_enable(struct clk *clk)
+{
+	u32 mode;
+	unsigned long flags;
+	struct pll_clk *pll = to_pll_clk(clk);
+
+	spin_lock_irqsave(&local_clock_reg_lock, flags);
+	mode = readl_relaxed(pll->mode_reg);
+	/* Disable PLL bypass mode. */
+	mode |= BIT(1);
+	writel_relaxed(mode, pll->mode_reg);
+
+	/*
+	 * H/W requires a 5us delay between disabling the bypass and
+	 * de-asserting the reset. Delay 10us just to be safe.
+	 */
+	mb();
+	udelay(10);
+
+	/* De-assert active-low PLL reset. */
+	mode |= BIT(2);
+	writel_relaxed(mode, pll->mode_reg);
+
+	/* Wait until PLL is locked. */
+	mb();
+	udelay(50);
+
+	/* Enable PLL output. */
+	mode |= BIT(0);
+	writel_relaxed(mode, pll->mode_reg);
+
+	spin_unlock_irqrestore(&local_clock_reg_lock, flags);
+	return 0;
+}
+
+static void pll_clk_disable(struct clk *clk)
+{
+	u32 mode;
+	unsigned long flags;
+	struct pll_clk *pll = to_pll_clk(clk);
+
+	/*
+	 * Disable the PLL output, disable test mode, enable
+	 * the bypass mode, and assert the reset.
+	 */
+	spin_lock_irqsave(&local_clock_reg_lock, flags);
+	mode = readl_relaxed(pll->mode_reg);
+	mode &= ~BM(3, 0);
+	writel_relaxed(mode, pll->mode_reg);
+	spin_unlock_irqrestore(&local_clock_reg_lock, flags);
+}
+
+static unsigned pll_clk_get_rate(struct clk *clk)
+{
+	struct pll_clk *pll = to_pll_clk(clk);
+	return pll->rate;
+}
+
+static struct clk *pll_clk_get_parent(struct clk *clk)
+{
+	struct pll_clk *pll = to_pll_clk(clk);
+	return pll->parent;
+}
+
+struct clk_ops clk_ops_pll = {
+	.enable = pll_clk_enable,
+	.disable = pll_clk_disable,
+	.get_rate = pll_clk_get_rate,
+	.get_parent = pll_clk_get_parent,
 	.is_local = local_clk_is_local,
 };
 

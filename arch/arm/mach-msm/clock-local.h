@@ -46,6 +46,23 @@ struct clk_freq_tbl {
 	void		*const extra_freq_data;
 };
 
+/* Some clocks have two banks to avoid glitches when switching frequencies.
+ * The unused bank is programmed while running on the other bank, and
+ * switched to afterwards. The following two structs describe the banks. */
+struct bank_mask_info {
+	void *const md_reg;
+	const uint32_t	ns_mask;
+	const uint32_t	rst_mask;
+	const uint32_t	mnd_en_mask;
+	const uint32_t	mode_mask;
+};
+
+struct bank_masks {
+	const uint32_t			bank_sel_mask;
+	const struct bank_mask_info	bank0_mask;
+	const struct bank_mask_info	bank1_mask;
+};
+
 #define F_RAW(f, sc, m_v, n_v, c_v, m_m, v, e) { \
 	.freq_hz = f, \
 	.src_clk = sc, \
@@ -98,8 +115,9 @@ struct rcg_clk {
 	const uint32_t	root_en_mask;
 	uint32_t	ns_mask;
 	const uint32_t	ctl_mask;
+	struct bank_masks *const bank_masks;
 	struct clk *depends;
-	void		(*set_rate)(struct clk_local *, struct clk_freq_tbl *);
+	void   (*set_rate)(struct rcg_clk *, struct clk_freq_tbl *);
 	struct clk_freq_tbl *const freq_tbl;
 	struct clk_freq_tbl *current_freq;
 
@@ -118,6 +136,7 @@ int rcg_clk_set_rate(struct clk *clk, unsigned rate);
 int rcg_clk_set_min_rate(struct clk *clk, unsigned rate);
 int rcg_clk_set_max_rate(struct clk *clk, unsigned rate);
 unsigned rcg_clk_get_rate(struct clk *clk);
+int rcg_clk_list_rate(struct clk *clk, unsigned n);
 unsigned rcg_clk_is_enabled(struct clk *clk);
 long rcg_clk_round_rate(struct clk *clk, unsigned rate);
 struct clk *rcg_clk_get_parent(struct clk *c);
@@ -184,6 +203,29 @@ static inline struct pll_vote_clk *to_pll_vote_clk(struct clk *clk)
 }
 
 /**
+ * struct pll_clk - phase locked loop
+ * @rate: output rate
+ * @mode_reg: enable register
+ * @parent: clock source
+ * @c: clk
+ */
+struct pll_clk {
+	unsigned long rate;
+
+	void __iomem *const mode_reg;
+
+	struct clk *parent;
+	struct clk c;
+};
+
+extern struct clk_ops clk_ops_pll;
+
+static inline struct pll_clk *to_pll_clk(struct clk *clk)
+{
+	return container_of(clk, struct pll_clk, c);
+}
+
+/**
  * struct branch_clk - branch
  * @enabled: true if clock is on, false otherwise
  * @b: branch
@@ -237,6 +279,9 @@ extern int (*soc_update_sys_vdd)(enum sys_vdd_level level);
  */
 void set_rate_mnd(struct rcg_clk *clk, struct clk_freq_tbl *nf);
 void set_rate_nop(struct rcg_clk *clk, struct clk_freq_tbl *nf);
+void set_rate_mnd_8(struct rcg_clk *clk, struct clk_freq_tbl *nf);
+void set_rate_mnd_banked(struct rcg_clk *clk, struct clk_freq_tbl *nf);
+void set_rate_div_banked(struct rcg_clk *clk, struct clk_freq_tbl *nf);
 
 #endif /* __ARCH_ARM_MACH_MSM_CLOCK_LOCAL_H */
 
