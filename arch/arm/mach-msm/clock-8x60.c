@@ -503,7 +503,6 @@ static struct branch_clk gmem_axi_clk = {
 	.c = {
 		.dbg_name = "gmem_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gmem_axi_clk.c),
 	},
 };
@@ -520,7 +519,6 @@ static struct branch_clk ijpeg_axi_clk = {
 	.c = {
 		.dbg_name = "ijpeg_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(ijpeg_axi_clk.c),
 	},
 };
@@ -537,7 +535,6 @@ static struct branch_clk imem_axi_clk = {
 	.c = {
 		.dbg_name = "imem_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(imem_axi_clk.c),
 	},
 };
@@ -552,7 +549,6 @@ static struct branch_clk jpegd_axi_clk = {
 	.c = {
 		.dbg_name = "jpegd_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(jpegd_axi_clk.c),
 	},
 };
@@ -569,7 +565,6 @@ static struct branch_clk mdp_axi_clk = {
 	.c = {
 		.dbg_name = "mdp_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(mdp_axi_clk.c),
 	},
 };
@@ -586,7 +581,6 @@ static struct branch_clk vcodec_axi_clk = {
 	.c = {
 		.dbg_name = "vcodec_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vcodec_axi_clk.c),
 	},
 };
@@ -603,7 +597,6 @@ static struct branch_clk vfe_axi_clk = {
 	.c = {
 		.dbg_name = "vfe_axi_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vfe_axi_clk.c),
 	},
 };
@@ -643,7 +636,6 @@ static struct branch_clk amp_p_clk = {
 	.c = {
 		.dbg_name = "amp_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(amp_p_clk.c),
 	},
 };
@@ -660,7 +652,6 @@ static struct branch_clk csi0_p_clk = {
 	.c = {
 		.dbg_name = "csi0_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi0_p_clk.c),
 	},
 };
@@ -677,7 +668,6 @@ static struct branch_clk csi1_p_clk = {
 	.c = {
 		.dbg_name = "csi1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi1_p_clk.c),
 	},
 };
@@ -694,7 +684,6 @@ static struct branch_clk dsi_m_p_clk = {
 	.c = {
 		.dbg_name = "dsi_m_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(dsi_m_p_clk.c),
 	},
 };
@@ -711,7 +700,6 @@ static struct branch_clk dsi_s_p_clk = {
 	.c = {
 		.dbg_name = "dsi_s_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(dsi_s_p_clk.c),
 	},
 };
@@ -728,7 +716,6 @@ static struct branch_clk gfx2d0_p_clk = {
 	.c = {
 		.dbg_name = "gfx2d0_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx2d0_p_clk.c),
 	},
 };
@@ -745,7 +732,6 @@ static struct branch_clk gfx2d1_p_clk = {
 	.c = {
 		.dbg_name = "gfx2d1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx2d1_p_clk.c),
 	},
 };
@@ -762,7 +748,6 @@ static struct branch_clk gfx3d_p_clk = {
 	.c = {
 		.dbg_name = "gfx3d_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx3d_p_clk.c),
 	},
 };
@@ -779,7 +764,6 @@ static struct branch_clk hdmi_m_p_clk = {
 	.c = {
 		.dbg_name = "hdmi_m_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(hdmi_m_p_clk.c),
 	},
 };
@@ -796,7 +780,6 @@ static struct branch_clk hdmi_s_p_clk = {
 	.c = {
 		.dbg_name = "hdmi_s_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(hdmi_s_p_clk.c),
 	},
 };
@@ -813,7 +796,6 @@ static struct branch_clk ijpeg_p_clk = {
 	.c = {
 		.dbg_name = "ijpeg_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(ijpeg_p_clk.c),
 	},
 };
@@ -830,7 +812,6 @@ static struct branch_clk imem_p_clk = {
 	.c = {
 		.dbg_name = "imem_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(imem_p_clk.c),
 	},
 };
@@ -847,7 +828,6 @@ static struct branch_clk jpegd_p_clk = {
 	.c = {
 		.dbg_name = "jpegd_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(jpegd_p_clk.c),
 	},
 };
@@ -864,7 +844,6 @@ static struct branch_clk mdp_p_clk = {
 	.c = {
 		.dbg_name = "mdp_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(mdp_p_clk.c),
 	},
 };
@@ -881,7 +860,6 @@ static struct branch_clk rot_p_clk = {
 	.c = {
 		.dbg_name = "rot_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(rot_p_clk.c),
 	},
 };
@@ -896,7 +874,6 @@ static struct branch_clk smmu_p_clk = {
 	.c = {
 		.dbg_name = "smmu_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(smmu_p_clk.c),
 	},
 };
@@ -913,7 +890,6 @@ static struct branch_clk tv_enc_p_clk = {
 	.c = {
 		.dbg_name = "tv_enc_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tv_enc_p_clk.c),
 	},
 };
@@ -930,7 +906,6 @@ static struct branch_clk vcodec_p_clk = {
 	.c = {
 		.dbg_name = "vcodec_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vcodec_p_clk.c),
 	},
 };
@@ -947,7 +922,6 @@ static struct branch_clk vfe_p_clk = {
 	.c = {
 		.dbg_name = "vfe_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vfe_p_clk.c),
 	},
 };
@@ -964,7 +938,6 @@ static struct branch_clk vpe_p_clk = {
 	.c = {
 		.dbg_name = "vpe_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vpe_p_clk.c),
 	},
 };
@@ -992,7 +965,6 @@ static struct branch_clk vpe_p_clk = {
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -1057,7 +1029,6 @@ static CLK_GSBI_UART(gsbi12_uart, 12, CLK_HALT_CFPB_STATEC_REG, 13);
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -1128,7 +1099,6 @@ static struct rcg_clk pdm_clk = {
 	.c = {
 		.dbg_name = "pdm_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pdm_clk.c),
 	},
 };
@@ -1143,7 +1113,6 @@ static struct branch_clk pmem_clk = {
 	.c = {
 		.dbg_name = "pmem_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pmem_clk.c),
 	},
 };
@@ -1173,7 +1142,6 @@ static struct rcg_clk prng_clk = {
 	.c = {
 		.dbg_name = "prng_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(prng_clk.c),
 	},
 };
@@ -1198,7 +1166,6 @@ static struct rcg_clk prng_clk = {
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -1261,7 +1228,6 @@ static struct rcg_clk tsif_ref_clk = {
 	.c = {
 		.dbg_name = "tsif_ref_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tsif_ref_clk.c),
 	},
 };
@@ -1294,7 +1260,6 @@ static struct rcg_clk tssc_clk = {
 	.c = {
 		.dbg_name = "tssc_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tssc_clk.c),
 	},
 };
@@ -1333,7 +1298,6 @@ static struct rcg_clk usb_hs1_xcvr_clk = {
 	.c = {
 		.dbg_name = "usb_hs1_xcvr_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_hs1_xcvr_clk.c),
 	},
 };
@@ -1366,7 +1330,6 @@ static struct branch_clk usb_phy0_clk = {
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -1385,7 +1348,6 @@ static struct branch_clk usb_fs1_xcvr_clk = {
 	.c = {
 		.dbg_name = "usb_fs1_xcvr_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs1_xcvr_clk.c),
 	},
 };
@@ -1403,7 +1365,6 @@ static struct branch_clk usb_fs1_sys_clk = {
 	.c = {
 		.dbg_name = "usb_fs1_sys_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs1_sys_clk.c),
 	},
 };
@@ -1422,7 +1383,6 @@ static struct branch_clk usb_fs2_xcvr_clk = {
 	.c = {
 		.dbg_name = "usb_fs2_xcvr_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs2_xcvr_clk.c),
 	},
 };
@@ -1440,7 +1400,6 @@ static struct branch_clk usb_fs2_sys_clk = {
 	.c = {
 		.dbg_name = "usb_fs2_sys_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs2_sys_clk.c),
 	},
 };
@@ -1457,7 +1416,6 @@ static struct branch_clk ce2_p_clk = {
 	.c = {
 		.dbg_name = "ce2_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(ce2_p_clk.c),
 	},
 };
@@ -1472,7 +1430,6 @@ static struct branch_clk gsbi1_p_clk = {
 	.c = {
 		.dbg_name = "gsbi1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi1_p_clk.c),
 	},
 };
@@ -1487,7 +1444,6 @@ static struct branch_clk gsbi2_p_clk = {
 	.c = {
 		.dbg_name = "gsbi2_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi2_p_clk.c),
 	},
 };
@@ -1502,7 +1458,6 @@ static struct branch_clk gsbi3_p_clk = {
 	.c = {
 		.dbg_name = "gsbi3_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi3_p_clk.c),
 	},
 };
@@ -1517,7 +1472,6 @@ static struct branch_clk gsbi4_p_clk = {
 	.c = {
 		.dbg_name = "gsbi4_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi4_p_clk.c),
 	},
 };
@@ -1532,7 +1486,6 @@ static struct branch_clk gsbi5_p_clk = {
 	.c = {
 		.dbg_name = "gsbi5_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi5_p_clk.c),
 	},
 };
@@ -1547,7 +1500,6 @@ static struct branch_clk gsbi6_p_clk = {
 	.c = {
 		.dbg_name = "gsbi6_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi6_p_clk.c),
 	},
 };
@@ -1562,7 +1514,6 @@ static struct branch_clk gsbi7_p_clk = {
 	.c = {
 		.dbg_name = "gsbi7_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi7_p_clk.c),
 	},
 };
@@ -1577,7 +1528,6 @@ static struct branch_clk gsbi8_p_clk = {
 	.c = {
 		.dbg_name = "gsbi8_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi8_p_clk.c),
 	},
 };
@@ -1592,7 +1542,6 @@ static struct branch_clk gsbi9_p_clk = {
 	.c = {
 		.dbg_name = "gsbi9_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi9_p_clk.c),
 	},
 };
@@ -1607,7 +1556,6 @@ static struct branch_clk gsbi10_p_clk = {
 	.c = {
 		.dbg_name = "gsbi10_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi10_p_clk.c),
 	},
 };
@@ -1622,7 +1570,6 @@ static struct branch_clk gsbi11_p_clk = {
 	.c = {
 		.dbg_name = "gsbi11_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi11_p_clk.c),
 	},
 };
@@ -1637,7 +1584,6 @@ static struct branch_clk gsbi12_p_clk = {
 	.c = {
 		.dbg_name = "gsbi12_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gsbi12_p_clk.c),
 	},
 };
@@ -1652,7 +1598,6 @@ static struct branch_clk ppss_p_clk = {
 	.c = {
 		.dbg_name = "ppss_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(ppss_p_clk.c),
 	},
 };
@@ -1667,7 +1612,6 @@ static struct branch_clk tsif_p_clk = {
 	.c = {
 		.dbg_name = "tsif_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tsif_p_clk.c),
 	},
 };
@@ -1682,7 +1626,6 @@ static struct branch_clk usb_fs1_p_clk = {
 	.c = {
 		.dbg_name = "usb_fs1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs1_p_clk.c),
 	},
 };
@@ -1697,7 +1640,6 @@ static struct branch_clk usb_fs2_p_clk = {
 	.c = {
 		.dbg_name = "usb_fs2_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_fs2_p_clk.c),
 	},
 };
@@ -1712,7 +1654,6 @@ static struct branch_clk usb_hs1_p_clk = {
 	.c = {
 		.dbg_name = "usb_hs1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(usb_hs1_p_clk.c),
 	},
 };
@@ -1727,7 +1668,6 @@ static struct branch_clk sdc1_p_clk = {
 	.c = {
 		.dbg_name = "sdc1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(sdc1_p_clk.c),
 	},
 };
@@ -1742,7 +1682,6 @@ static struct branch_clk sdc2_p_clk = {
 	.c = {
 		.dbg_name = "sdc2_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(sdc2_p_clk.c),
 	},
 };
@@ -1757,7 +1696,6 @@ static struct branch_clk sdc3_p_clk = {
 	.c = {
 		.dbg_name = "sdc3_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(sdc3_p_clk.c),
 	},
 };
@@ -1772,7 +1710,6 @@ static struct branch_clk sdc4_p_clk = {
 	.c = {
 		.dbg_name = "sdc4_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(sdc4_p_clk.c),
 	},
 };
@@ -1787,7 +1724,6 @@ static struct branch_clk sdc5_p_clk = {
 	.c = {
 		.dbg_name = "sdc5_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(sdc5_p_clk.c),
 	},
 };
@@ -1805,7 +1741,6 @@ static struct branch_clk adm0_clk = {
 	.c = {
 		.dbg_name = "adm0_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(adm0_clk.c),
 	},
 };
@@ -1821,7 +1756,6 @@ static struct branch_clk adm0_p_clk = {
 	.c = {
 		.dbg_name = "adm0_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(adm0_p_clk.c),
 	},
 };
@@ -1838,7 +1772,6 @@ static struct branch_clk adm1_clk = {
 	.c = {
 		.dbg_name = "adm1_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(adm1_clk.c),
 	},
 };
@@ -1854,7 +1787,6 @@ static struct branch_clk adm1_p_clk = {
 	.c = {
 		.dbg_name = "adm1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(adm1_p_clk.c),
 	},
 };
@@ -1870,7 +1802,6 @@ static struct branch_clk modem_ahb1_p_clk = {
 	.c = {
 		.dbg_name = "modem_ahb1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(modem_ahb1_p_clk.c),
 	},
 };
@@ -1886,7 +1817,6 @@ static struct branch_clk modem_ahb2_p_clk = {
 	.c = {
 		.dbg_name = "modem_ahb2_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(modem_ahb2_p_clk.c),
 	},
 };
@@ -1902,7 +1832,6 @@ static struct branch_clk pmic_arb0_p_clk = {
 	.c = {
 		.dbg_name = "pmic_arb0_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pmic_arb0_p_clk.c),
 	},
 };
@@ -1918,7 +1847,6 @@ static struct branch_clk pmic_arb1_p_clk = {
 	.c = {
 		.dbg_name = "pmic_arb1_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pmic_arb1_p_clk.c),
 	},
 };
@@ -1934,7 +1862,6 @@ static struct branch_clk pmic_ssbi2_clk = {
 	.c = {
 		.dbg_name = "pmic_ssbi2_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pmic_ssbi2_clk.c),
 	},
 };
@@ -1950,7 +1877,6 @@ static struct branch_clk rpm_msg_ram_p_clk = {
 	.c = {
 		.dbg_name = "rpm_msg_ram_p_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(rpm_msg_ram_p_clk.c),
 	},
 };
@@ -2014,7 +1940,6 @@ static struct rcg_clk cam_clk = {
 	.c = {
 		.dbg_name = "cam_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(cam_clk.c),
 	},
 };
@@ -2047,7 +1972,6 @@ static struct rcg_clk csi_src_clk = {
 	.c = {
 		.dbg_name = "csi_src_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi_src_clk.c),
 	},
 };
@@ -2065,7 +1989,6 @@ static struct branch_clk csi0_clk = {
 	.c = {
 		.dbg_name = "csi0_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi0_clk.c),
 	},
 };
@@ -2083,7 +2006,6 @@ static struct branch_clk csi1_clk = {
 	.c = {
 		.dbg_name = "csi1_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi1_clk.c),
 	},
 };
@@ -2121,7 +2043,6 @@ static struct rcg_clk dsi_byte_clk = {
 	.c = {
 		.dbg_name = "dsi_byte_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(dsi_byte_clk.c),
 	},
 };
@@ -2136,7 +2057,6 @@ static struct branch_clk dsi_esc_clk = {
 	.c = {
 		.dbg_name = "dsi_esc_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(dsi_esc_clk.c),
 	},
 };
@@ -2204,7 +2124,6 @@ static struct rcg_clk gfx2d0_clk = {
 	.c = {
 		.dbg_name = "gfx2d0_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx2d0_clk.c),
 	},
 };
@@ -2245,7 +2164,6 @@ static struct rcg_clk gfx2d1_clk = {
 	.c = {
 		.dbg_name = "gfx2d1_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx2d1_clk.c),
 	},
 };
@@ -2316,7 +2234,6 @@ static struct rcg_clk gfx3d_clk = {
 	.c = {
 		.dbg_name = "gfx3d_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(gfx3d_clk.c),
 	},
 };
@@ -2366,7 +2283,6 @@ static struct rcg_clk ijpeg_clk = {
 	.c = {
 		.dbg_name = "ijpeg_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(ijpeg_clk.c),
 	},
 };
@@ -2407,7 +2323,6 @@ static struct rcg_clk jpegd_clk = {
 	.c = {
 		.dbg_name = "jpegd_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(jpegd_clk.c),
 	},
 };
@@ -2478,7 +2393,6 @@ static struct rcg_clk mdp_clk = {
 	.c = {
 		.dbg_name = "mdp_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(mdp_clk.c),
 	},
 };
@@ -2512,7 +2426,6 @@ static struct rcg_clk mdp_vsync_clk = {
 	.c = {
 		.dbg_name = "mdp_vsync_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(mdp_vsync_clk.c),
 	},
 };
@@ -2563,7 +2476,6 @@ static struct rcg_clk pixel_mdp_clk = {
 	.c = {
 		.dbg_name = "pixel_mdp_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pixel_mdp_clk.c),
 	},
 };
@@ -2579,7 +2491,6 @@ static struct branch_clk pixel_lcdc_clk = {
 	.c = {
 		.dbg_name = "pixel_lcdc_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pixel_lcdc_clk.c),
 	},
 };
@@ -2638,7 +2549,6 @@ static struct rcg_clk rot_clk = {
 	.c = {
 		.dbg_name = "rot_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(rot_clk.c),
 	},
 };
@@ -2688,7 +2598,6 @@ static struct rcg_clk tv_src_clk = {
 	.c = {
 		.dbg_name = "tv_src_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tv_src_clk.c),
 	},
 };
@@ -2706,7 +2615,6 @@ static struct branch_clk tv_enc_clk = {
 	.c = {
 		.dbg_name = "tv_enc_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tv_enc_clk.c),
 	},
 };
@@ -2722,7 +2630,6 @@ static struct branch_clk tv_dac_clk = {
 	.c = {
 		.dbg_name = "tv_dac_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(tv_dac_clk.c),
 	},
 };
@@ -2740,7 +2647,6 @@ static struct branch_clk mdp_tv_clk = {
 	.c = {
 		.dbg_name = "mdp_tv_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(mdp_tv_clk.c),
 	},
 };
@@ -2758,7 +2664,6 @@ static struct branch_clk hdmi_tv_clk = {
 	.c = {
 		.dbg_name = "hdmi_tv_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(hdmi_tv_clk.c),
 	},
 };
@@ -2775,7 +2680,6 @@ static struct branch_clk hdmi_app_clk = {
 	.c = {
 		.dbg_name = "hdmi_app_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(hdmi_app_clk.c),
 	},
 };
@@ -2824,7 +2728,6 @@ static struct rcg_clk vcodec_clk = {
 	.c = {
 		.dbg_name = "vcodec_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vcodec_clk.c),
 	},
 };
@@ -2868,7 +2771,6 @@ static struct rcg_clk vpe_clk = {
 	.c = {
 		.dbg_name = "vpe_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vpe_clk.c),
 	},
 };
@@ -2925,7 +2827,6 @@ static struct rcg_clk vfe_clk = {
 	.c = {
 		.dbg_name = "vfe_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(vfe_clk.c),
 	},
 };
@@ -2943,7 +2844,6 @@ static struct branch_clk csi0_vfe_clk = {
 	.c = {
 		.dbg_name = "csi0_vfe_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi0_vfe_clk.c),
 	},
 };
@@ -2961,7 +2861,6 @@ static struct branch_clk csi1_vfe_clk = {
 	.c = {
 		.dbg_name = "csi1_vfe_clk",
 		.ops = &clk_ops_branch,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(csi1_vfe_clk.c),
 	},
 };
@@ -3014,7 +2913,6 @@ static struct clk_freq_tbl clk_tbl_aif_osr[] = {
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -3049,7 +2947,6 @@ static struct clk_freq_tbl clk_tbl_aif_bit[] = {
 		.c = { \
 			.dbg_name = #i "_clk", \
 			.ops = &soc_clk_ops_8x60, \
-			.flags = CLKFLAG_AUTO_OFF, \
 			CLK_INIT(i##_clk.c), \
 		}, \
 	}
@@ -3123,7 +3020,6 @@ static struct rcg_clk pcm_clk = {
 	.c = {
 		.dbg_name = "pcm_clk",
 		.ops = &soc_clk_ops_8x60,
-		.flags = CLKFLAG_AUTO_OFF,
 		CLK_INIT(pcm_clk.c),
 	},
 };
