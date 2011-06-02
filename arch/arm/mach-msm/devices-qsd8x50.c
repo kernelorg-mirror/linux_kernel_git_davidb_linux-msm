@@ -294,10 +294,11 @@ int __init msm_add_sdcc(unsigned int controller,
 
 static DEFINE_CLK_PCOM(adm_clk,		ADM_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(ce_clk,		CE_CLK,		CLKFLAG_SKIP_AUTO_OFF);
-static DEFINE_CLK_PCOM(ebi1_clk,	EBI1_CLK,	CLK_MIN);
+static DEFINE_CLK_PCOM(ebi1_clk,	EBI1_CLK,	CLKFLAG_MIN);
 static DEFINE_CLK_PCOM(ebi2_clk,	EBI2_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(ecodec_clk,	ECODEC_CLK,	CLKFLAG_SKIP_AUTO_OFF);
-static DEFINE_CLK_PCOM(emdh_clk,	EMDH_CLK,	CLK_MINMAX);
+static DEFINE_CLK_PCOM(emdh_clk,	EMDH_CLK,	CLKFLAG_MIN |
+							CLKFLAG_MAX);
 static DEFINE_CLK_PCOM(gp_clk,		GP_CLK,		CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(grp_3d_clk,	GRP_3D_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(i2c_clk,		I2C_CLK,	CLKFLAG_SKIP_AUTO_OFF);
@@ -305,14 +306,15 @@ static DEFINE_CLK_PCOM(icodec_rx_clk,	ICODEC_RX_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(icodec_tx_clk,	ICODEC_TX_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(imem_clk,	IMEM_CLK,	0);
 static DEFINE_CLK_PCOM(mdc_clk,		MDC_CLK,	CLKFLAG_SKIP_AUTO_OFF);
-static DEFINE_CLK_PCOM(pmdh_clk,	PMDH_CLK,	CLK_MINMAX);
+static DEFINE_CLK_PCOM(pmdh_clk,	PMDH_CLK,	CLKFLAG_MIN |
+							CLKFLAG_MAX);
 static DEFINE_CLK_PCOM(mdp_clk,		MDP_CLK,	0);
 static DEFINE_CLK_PCOM(mdp_lcdc_pclk_clk,	MDP_LCDC_PCLK_CLK,
 		CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(mdp_lcdc_pad_pclk_clk,	MDP_LCDC_PAD_PCLK_CLK,
 		CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(mdp_vsync_clk,	MDP_VSYNC_CLK,	CLKFLAG_SKIP_AUTO_OFF);
-static DEFINE_CLK_PCOM(pbus_clk,	PBUS_CLK,	CLK_MIN);
+static DEFINE_CLK_PCOM(pbus_clk,	PBUS_CLK,	CLKFLAG_MIN);
 static DEFINE_CLK_PCOM(pcm_clk,		PCM_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(sdac_clk,	SDAC_CLK,	0);
 static DEFINE_CLK_PCOM(sdc1_clk,	SDC1_CLK,	0);
@@ -336,7 +338,7 @@ static DEFINE_CLK_PCOM(uart2dm_clk,	UART2DM_CLK,	CLKFLAG_SKIP_AUTO_OFF);
 static DEFINE_CLK_PCOM(usb_hs_clk,	USB_HS_CLK,	0);
 static DEFINE_CLK_PCOM(usb_hs_p_clk,	USB_HS_P_CLK,	0);
 static DEFINE_CLK_PCOM(usb_otg_clk,	USB_OTG_CLK,	CLKFLAG_SKIP_AUTO_OFF);
-static DEFINE_CLK_PCOM(vdc_clk,		VDC_CLK,	CLK_MIN);
+static DEFINE_CLK_PCOM(vdc_clk,		VDC_CLK,	CLKFLAG_MIN);
 static DEFINE_CLK_PCOM(vfe_clk,		VFE_CLK,	0);
 static DEFINE_CLK_PCOM(vfe_mdc_clk,	VFE_MDC_CLK,	0);
 static DEFINE_CLK_PCOM(vfe_axi_clk,	VFE_AXI_CLK,	0);
