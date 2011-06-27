@@ -20,6 +20,7 @@
 #include <linux/init.h>
 #include <linux/list.h>
 #include <linux/spinlock.h>
+#include <linux/clkdev.h>
 #include <mach/clk.h>
 
 #define CLKFLAG_INVERT			0x00000001
@@ -68,12 +69,10 @@ struct clk {
 	.children = LIST_HEAD_INIT((name).children), \
 	.siblings = LIST_HEAD_INIT((name).siblings)
 
-#if defined(CONFIG_ARCH_MSM7X30) || defined(CONFIG_ARCH_MSM8X60) || \
-defined(CONFIG_ARCH_MSM8960)
-void __init msm_clk_soc_init(void);
-#else
-static inline void __init msm_clk_soc_init(void) { }
-#endif
+void msm_clock_init(struct clk_lookup *clock_tbl, size_t num_clocks);
+void msm7x30_clock_init(void);
+void msm8660_clock_init(void);
+void msm8960_clock_init(void);
 
 #ifdef CONFIG_DEBUG_FS
 int __init clock_debug_init(void);

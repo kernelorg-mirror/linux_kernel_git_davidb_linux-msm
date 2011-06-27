@@ -27,7 +27,7 @@ static const struct of_device_id msm_dt_gic_match[] __initconst = {
 
 static void __init msm8960_init_early(void)
 {
-	msm_clock_init(msm_clocks_8960, msm_num_clocks_8960);
+	msm8960_clock_init();
 }
 
 static void __init msm_dt_init_irq(void)
