@@ -52,7 +52,7 @@ static void __init msm8x60_map_io(void)
 
 static void __init msm8x60_init_early(void)
 {
-	msm_clock_init(msm_clocks_8x60, msm_num_clocks_8x60);
+	msm8660_clock_init();
 }
 
 static void __init msm8x60_init_irq(void)

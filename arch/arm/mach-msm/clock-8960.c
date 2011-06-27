@@ -3578,7 +3578,7 @@ static struct clk measure_clk = {
 	CLK_INIT(measure_clk),
 };
 
-struct clk_lookup msm_clocks_8960[] = {
+static struct clk_lookup msm_clocks_8960[] = {
 	CLK_LOOKUP("cxo",		cxo_clk.c,		NULL),
 	CLK_LOOKUP("pll2",		pll2_clk.c,		NULL),
 	CLK_LOOKUP("pll8",		pll8_clk.c,		NULL),
@@ -3752,8 +3752,6 @@ struct clk_lookup msm_clocks_8960[] = {
 	CLK_LOOKUP("iommu_clk",		gfx2d1_clk.c,		"msm_iommu.11"),
 };
 
-unsigned msm_num_clocks_8960 = ARRAY_SIZE(msm_clocks_8960);
-
 /*
  * Miscellaneous clock register initializations
  */
@@ -3892,9 +3890,8 @@ static int wr_pll_clk_enable(struct clk *clk)
 	return 0;
 }
 
-
 /* Local clock driver initialization. */
-void __init msm_clk_soc_init(void)
+void __init msm8960_clock_init(void)
 {
 	soc_update_sys_vdd = msm8960_update_sys_vdd;
 	local_vote_sys_vdd(HIGH);
@@ -3922,6 +3919,8 @@ void __init msm_clk_soc_init(void)
 	rcg_clk_disable(&pdm_clk.c);
 	rcg_clk_enable(&tssc_clk.c);
 	rcg_clk_disable(&tssc_clk.c);
+
+	msm_clock_init(msm_clocks_8960, ARRAY_SIZE(msm_clocks_8960));
 }
 
 static int __init msm_clk_soc_late_init(void)

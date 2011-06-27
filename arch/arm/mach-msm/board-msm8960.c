@@ -55,7 +55,7 @@ static void __init msm8960_map_io(void)
 
 static void __init msm8960_init_early(void)
 {
-	msm_clock_init(msm_clocks_8960, msm_num_clocks_8960);
+	msm8960_clock_init();
 }
 
 static void __init msm8960_init_irq(void)
