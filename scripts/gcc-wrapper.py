@@ -39,6 +39,9 @@ import subprocess
 # force LANG to be set to en_US.UTF-8 to get consistent warnings.
 
 allowed_warnings = set([
+    "dm.c:1068",
+    "dm.c:1095",
+    "dm-table.c:1264",
     "futex.c:2484",
     "futex.c:1579",
     "return_address.c:62",
