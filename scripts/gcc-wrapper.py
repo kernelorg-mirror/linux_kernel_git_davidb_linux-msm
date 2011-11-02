@@ -39,12 +39,12 @@ import subprocess
 # force LANG to be set to en_US.UTF-8 to get consistent warnings.
 
 allowed_warnings = set([
-    "dm.c:1068",
-    "dm.c:1095",
-    "dm-table.c:1264",
-    "futex.c:2484",
-    "futex.c:1579",
+    "control.c:1089",
+    "dm.c:1061",
+    "dm.c:1088",
+    "dm-table.c:1242",
     "return_address.c:62",
+    "secure_seq.c:22",
  ])
 
 # Capture the name of the object file, can find it.
