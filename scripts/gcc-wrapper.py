@@ -40,9 +40,9 @@ import subprocess
 
 allowed_warnings = set([
     "control.c:1089",
-    "dm.c:1061",
-    "dm.c:1088",
-    "dm-table.c:1242",
+    "dm.c:1070",
+    "dm.c:1097",
+    "dm-table.c:1285",
     "return_address.c:62",
     "secure_seq.c:22",
  ])
