@@ -39,7 +39,6 @@ import subprocess
 # force LANG to be set to en_US.UTF-8 to get consistent warnings.
 
 allowed_warnings = set([
-    "dm-table.c:1285",
     "return_address.c:62",
  ])
 
