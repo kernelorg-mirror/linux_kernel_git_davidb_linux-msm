@@ -206,8 +206,11 @@ MACHINE_END
 #ifdef CONFIG_OF
 /* TODO: General device tree support for all MSM. */
 DT_MACHINE_START(MSM_DT, "Qualcomm MSM (Flattened Device Tree)")
+	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
+	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_dt_init,
 	.timer = &msm_timer,
 	.dt_compat = msm8x60_fluid_match,
