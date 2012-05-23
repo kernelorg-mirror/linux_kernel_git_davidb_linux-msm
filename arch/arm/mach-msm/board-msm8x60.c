@@ -28,6 +28,7 @@
 
 #include <mach/board.h>
 #include <mach/msm_iomap.h>
+#include "devices.h"
 
 static void __init msm8x60_fixup(struct tag *tag, char **cmdline,
 		struct meminfo *mi)
@@ -48,6 +49,11 @@ static void __init msm8x60_reserve(void)
 static void __init msm8x60_map_io(void)
 {
 	msm_map_msm8x60_io();
+}
+
+static void __init msm8x60_init_early(void)
+{
+	msm8660_clock_init();
 }
 
 #ifdef CONFIG_OF
@@ -77,8 +83,58 @@ static void __init msm8x60_init_irq(void)
 		writel(0x0000FFFF, MSM_QGIC_DIST_BASE + GIC_DIST_ENABLE_SET);
 }
 
+static struct resource msm_uart12_dm_resources[] = {
+	{
+		.start = 0x19C40000,
+		.end   = 0x19C40000 + PAGE_SIZE - 1,
+		.name  = "uart_resource",
+		.flags = IORESOURCE_MEM,
+	},
+	{
+		.start = INT_UART12DM_IRQ,
+		.end   = INT_UART12DM_IRQ,
+		.flags = IORESOURCE_IRQ,
+	},
+	{
+		/* GSBI 12 is UARTDM2 */
+		.start = 0x19C00000,
+		.end   = 0x19C00000 + PAGE_SIZE - 1,
+		.name  = "gsbi_resource",
+		.flags = IORESOURCE_MEM,
+	},
+};
+
+struct platform_device msm_device_uart_dm12 = {
+	.name = "msm_serial",
+	.id = 0,
+	.num_resources = ARRAY_SIZE(msm_uart12_dm_resources),
+	.resource = msm_uart12_dm_resources,
+};
+
+static struct platform_device *devices[] __initdata = {
+	&msm_device_uart_dm12,
+};
+
+static void __init msm8x60_init_uart12dm(void)
+{
+	/* 0x1D000000 now belongs to EBI2:CS3 i.e. USB ISP Controller */
+	void *fpga_mem = ioremap_nocache(0x1D000000, SZ_4K);
+	/* Advanced mode */
+	writew(0xFFFF, fpga_mem + 0x15C);
+	/* FPGA_UART_SEL */
+	writew(0, fpga_mem + 0x172);
+	/* FPGA_GPIO_CONFIG_117 */
+	writew(1, fpga_mem + 0xEA);
+	/* FPGA_GPIO_CONFIG_118 */
+	writew(1, fpga_mem + 0xEC);
+	dmb();
+	iounmap(fpga_mem);
+}
+
 static void __init msm8x60_init(void)
 {
+	msm8x60_init_uart12dm();
+	platform_add_devices(devices, ARRAY_SIZE(devices));
 }
 
 #ifdef CONFIG_OF
@@ -108,6 +164,7 @@ MACHINE_START(MSM8X60_RUMI3, "QCT MSM8X60 RUMI3")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -118,6 +175,7 @@ MACHINE_START(MSM8X60_SURF, "QCT MSM8X60 SURF")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -128,6 +186,7 @@ MACHINE_START(MSM8X60_SIM, "QCT MSM8X60 SIMULATOR")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -138,6 +197,7 @@ MACHINE_START(MSM8X60_FFA, "QCT MSM8X60 FFA")
 	.fixup = msm8x60_fixup,
 	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
 	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_init,
@@ -158,8 +218,11 @@ MACHINE_END
 #ifdef CONFIG_OF
 /* TODO: General device tree support for all MSM. */
 DT_MACHINE_START(MSM_DT, "Qualcomm MSM (Flattened Device Tree)")
+	.reserve = msm8x60_reserve,
 	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = msm8x60_init_irq,
+	.handle_irq = gic_handle_irq,
 	.init_machine = msm8x60_dt_init,
 	.timer = &msm_timer,
 	.dt_compat = msm8x60_fluid_match,
