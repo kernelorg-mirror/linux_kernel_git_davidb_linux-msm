@@ -144,6 +144,17 @@ MACHINE_START(MSM8X60_FFA, "QCT MSM8X60 FFA")
 	.timer = &msm_timer,
 MACHINE_END
 
+MACHINE_START(MSM8X60_DRAGON, "QCT MSM8X60 DRAGON")
+	.fixup = msm8x60_fixup,
+	.reserve = msm8x60_reserve,
+	.map_io = msm8x60_map_io,
+	.init_early = msm8x60_init_early,
+	.init_irq = msm8x60_init_irq,
+	.handle_irq = gic_handle_irq,
+	.init_machine = msm8x60_init,
+	.timer = &msm_timer,
+MACHINE_END
+
 #ifdef CONFIG_OF
 /* TODO: General device tree support for all MSM. */
 DT_MACHINE_START(MSM_DT, "Qualcomm MSM (Flattened Device Tree)")
