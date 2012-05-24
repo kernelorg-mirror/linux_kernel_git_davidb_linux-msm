@@ -139,6 +139,7 @@ static void __init msm8x60_init(void)
 
 #ifdef CONFIG_OF
 static struct of_dev_auxdata msm_auxdata_lookup[] __initdata = {
+	OF_DEV_AUXDATA("qcom,msm-hsuart", 0x19c40000, "msm_serial.0", NULL),
 	{}
 };
 
