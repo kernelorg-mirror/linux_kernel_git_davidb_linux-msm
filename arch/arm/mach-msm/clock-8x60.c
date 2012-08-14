@@ -3447,66 +3447,6 @@ static struct clk_lookup msm_clocks_8x60[] = {
 	CLK_LOOKUP("pmic_arb_pclk",	pmic_arb1_p_clk.c,	NULL),
 	CLK_LOOKUP("pmic_ssbi2",	pmic_ssbi2_clk.c,		NULL),
 	CLK_LOOKUP("rpm_msg_ram_pclk",	rpm_msg_ram_p_clk.c,	NULL),
-	CLK_LOOKUP("amp_clk",		amp_clk.c,		NULL),
-	CLK_LOOKUP("cam_clk",		cam_clk.c,		NULL),
-	CLK_LOOKUP("csi_clk",		csi0_clk.c,		NULL),
-	CLK_LOOKUP("csi_clk",		csi1_clk.c, "msm_camera_ov7692.0"),
-	CLK_LOOKUP("csi_clk",		csi1_clk.c, "msm_camera_ov9726.0"),
-	CLK_LOOKUP("csi_src_clk",	csi_src_clk.c,		NULL),
-	CLK_LOOKUP("dsi_byte_div_clk",	dsi_byte_clk.c,		NULL),
-	CLK_LOOKUP("dsi_esc_clk",	dsi_esc_clk.c,		NULL),
-	CLK_LOOKUP("gfx2d0_clk",	gfx2d0_clk.c,		NULL),
-	CLK_LOOKUP("gfx2d1_clk",	gfx2d1_clk.c,		NULL),
-	CLK_LOOKUP("gfx3d_clk",		gfx3d_clk.c,		NULL),
-	CLK_LOOKUP("ijpeg_clk",		ijpeg_clk.c,		NULL),
-	CLK_LOOKUP("jpegd_clk",		jpegd_clk.c,		NULL),
-	CLK_LOOKUP("mdp_clk",		mdp_clk.c,		NULL),
-	CLK_LOOKUP("mdp_vsync_clk",	mdp_vsync_clk.c,		NULL),
-	CLK_LOOKUP("pixel_lcdc_clk",	pixel_lcdc_clk.c,		NULL),
-	CLK_LOOKUP("pixel_mdp_clk",	pixel_mdp_clk.c,		NULL),
-	CLK_LOOKUP("rot_clk",		rot_clk.c,		NULL),
-	CLK_LOOKUP("tv_enc_clk",	tv_enc_clk.c,		NULL),
-	CLK_LOOKUP("tv_dac_clk",	tv_dac_clk.c,		NULL),
-	CLK_LOOKUP("vcodec_clk",	vcodec_clk.c,		NULL),
-	CLK_LOOKUP("mdp_tv_clk",	mdp_tv_clk.c,		NULL),
-	CLK_LOOKUP("hdmi_clk",		hdmi_tv_clk.c,		NULL),
-	CLK_LOOKUP("tv_src_clk",	tv_src_clk.c,		NULL),
-	CLK_LOOKUP("hdmi_app_clk",	hdmi_app_clk.c,		NULL),
-	CLK_LOOKUP("vpe_clk",		vpe_clk.c,		NULL),
-	CLK_LOOKUP("csi_vfe_clk",	csi0_vfe_clk.c,		NULL),
-	CLK_LOOKUP("csi_vfe_clk",	csi1_vfe_clk.c, "msm_camera_ov7692.0"),
-	CLK_LOOKUP("csi_vfe_clk",	csi1_vfe_clk.c, "msm_camera_ov9726.0"),
-	CLK_LOOKUP("vfe_clk",		vfe_clk.c,		NULL),
-	CLK_LOOKUP("smmu_jpegd_clk",	jpegd_axi_clk.c,		NULL),
-	CLK_LOOKUP("smmu_vfe_clk",	vfe_axi_clk.c,		NULL),
-	CLK_LOOKUP("vfe_axi_clk",	vfe_axi_clk.c,		NULL),
-	CLK_LOOKUP("ijpeg_axi_clk",	ijpeg_axi_clk.c,		NULL),
-	CLK_LOOKUP("imem_axi_clk",	imem_axi_clk.c,		NULL),
-	CLK_LOOKUP("mdp_axi_clk",	mdp_axi_clk.c,		NULL),
-	CLK_LOOKUP("rot_axi_clk",	rot_axi_clk.c,		NULL),
-	CLK_LOOKUP("vcodec_axi_clk",	vcodec_axi_clk.c,		NULL),
-	CLK_LOOKUP("vpe_axi_clk",	vpe_axi_clk.c,		NULL),
-	CLK_LOOKUP("amp_pclk",		amp_p_clk.c,		NULL),
-	CLK_LOOKUP("csi_pclk",		csi0_p_clk.c,		NULL),
-	CLK_LOOKUP("csi_pclk",		csi1_p_clk.c, "msm_camera_ov7692.0"),
-	CLK_LOOKUP("csi_pclk",		csi1_p_clk.c, "msm_camera_ov9726.0"),
-	CLK_LOOKUP("dsi_m_pclk",	dsi_m_p_clk.c,		NULL),
-	CLK_LOOKUP("dsi_s_pclk",	dsi_s_p_clk.c,		NULL),
-	CLK_LOOKUP("gfx2d0_pclk",	gfx2d0_p_clk.c,		NULL),
-	CLK_LOOKUP("gfx2d1_pclk",	gfx2d1_p_clk.c,		NULL),
-	CLK_LOOKUP("gfx3d_pclk",	gfx3d_p_clk.c,		NULL),
-	CLK_LOOKUP("hdmi_m_pclk",	hdmi_m_p_clk.c,		NULL),
-	CLK_LOOKUP("hdmi_s_pclk",	hdmi_s_p_clk.c,		NULL),
-	CLK_LOOKUP("ijpeg_pclk",	ijpeg_p_clk.c,		NULL),
-	CLK_LOOKUP("jpegd_pclk",	jpegd_p_clk.c,		NULL),
-	CLK_LOOKUP("imem_pclk",		imem_p_clk.c,		NULL),
-	CLK_LOOKUP("mdp_pclk",		mdp_p_clk.c,		NULL),
-	CLK_LOOKUP("smmu_pclk",		smmu_p_clk.c,		NULL),
-	CLK_LOOKUP("rotator_pclk",	rot_p_clk.c,		NULL),
-	CLK_LOOKUP("tv_enc_pclk",	tv_enc_p_clk.c,		NULL),
-	CLK_LOOKUP("vcodec_pclk",	vcodec_p_clk.c,		NULL),
-	CLK_LOOKUP("vfe_pclk",		vfe_p_clk.c,		NULL),
-	CLK_LOOKUP("vpe_pclk",		vpe_p_clk.c,		NULL),
 	CLK_LOOKUP("mi2s_osr_clk",	mi2s_osr_clk.c,		NULL),
 	CLK_LOOKUP("mi2s_bit_clk",	mi2s_bit_clk.c,		NULL),
 	CLK_LOOKUP("i2s_mic_osr_clk",	codec_i2s_mic_osr_clk.c,	NULL),
@@ -3518,14 +3458,6 @@ static struct clk_lookup msm_clocks_8x60[] = {
 	CLK_LOOKUP("i2s_spkr_osr_clk",	spare_i2s_spkr_osr_clk.c,	NULL),
 	CLK_LOOKUP("i2s_spkr_bit_clk",	spare_i2s_spkr_bit_clk.c,	NULL),
 	CLK_LOOKUP("pcm_clk",		pcm_clk.c,		NULL),
-	CLK_LOOKUP("iommu_clk",		jpegd_axi_clk.c, "msm_iommu.0"),
-	CLK_LOOKUP("iommu_clk",		ijpeg_axi_clk.c, "msm_iommu.5"),
-	CLK_LOOKUP("iommu_clk",		vfe_axi_clk.c, "msm_iommu.6"),
-	CLK_LOOKUP("iommu_clk",		vcodec_axi_clk.c, "msm_iommu.7"),
-	CLK_LOOKUP("iommu_clk",		vcodec_axi_clk.c, "msm_iommu.8"),
-	CLK_LOOKUP("iommu_clk",		gfx3d_clk.c, "msm_iommu.9"),
-	CLK_LOOKUP("iommu_clk",		gfx2d0_clk.c, "msm_iommu.10"),
-	CLK_LOOKUP("iommu_clk",		gfx2d1_clk.c, "msm_iommu.11"),
 
 	CLK_LOOKUP("sc0_mclk",		sc0_m_clk, NULL),
 	CLK_LOOKUP("sc1_mclk",		sc1_m_clk, NULL),
@@ -3547,12 +3479,6 @@ static void __init rmwreg(uint32_t val, void *reg, uint32_t mask)
 
 static void __init reg_init(void)
 {
-	/* Setup MM_PLL2 (PLL3), but turn it off. Rate set by set_rate_tv(). */
-	rmwreg(0, MM_PLL2_MODE_REG, BIT(0)); /* Disable output */
-	/* Set ref, bypass, assert reset, disable output, disable test mode */
-	writel_relaxed(0, MM_PLL2_MODE_REG); /* PXO */
-	writel_relaxed(0x00800000, MM_PLL2_CONFIG_REG); /* Enable main out. */
-
 	/* The clock driver doesn't use SC1's voting register to control
 	 * HW-voteable clocks.  Clear its bits so that disabling bits in the
 	 * SC0 register will cause the corresponding clocks to be disabled. */
@@ -3562,73 +3488,9 @@ static void __init reg_init(void)
 	writel_relaxed(BIT(12)|BIT(11), SC0_U_CLK_SLEEP_ENA_VOTE_REG);
 	writel_relaxed(BIT(12)|BIT(11), SC1_U_CLK_SLEEP_ENA_VOTE_REG);
 
-	/* Deassert MM SW_RESET_ALL signal. */
-	writel_relaxed(0, SW_RESET_ALL_REG);
-
-	/* Initialize MM AHB registers: Enable the FPB clock and disable HW
-	 * gating for all clocks. Also set VFE_AHB's FORCE_CORE_ON bit to
-	 * prevent its memory from being collapsed when the clock is halted.
-	 * The sleep and wake-up delays are set to safe values. */
-	rmwreg(0x00000003, AHB_EN_REG,  0x0F7FFFFF);
-	rmwreg(0x000007F9, AHB_EN2_REG, 0x7FFFBFFF);
-
-	/* Deassert all locally-owned MM AHB resets. */
-	rmwreg(0, SW_RESET_AHB_REG, 0xFFF7DFFF);
-
-	/* Initialize MM AXI registers: Enable HW gating for all clocks that
-	 * support it. Also set FORCE_CORE_ON bits, and any sleep and wake-up
-	 * delays to safe values. */
-	rmwreg(0x000207F9, MAXI_EN_REG,  0x0FFFFFFF);
-	writel_relaxed(0x7027FCFF, MAXI_EN2_REG);
-	writel_relaxed(0x3FE7FCFF, MAXI_EN3_REG);
-	writel_relaxed(0x000001D8, SAXI_EN_REG);
-
-	/* Initialize MM CC registers: Set MM FORCE_CORE_ON bits so that core
-	 * memories retain state even when not clocked. Also, set sleep and
-	 * wake-up delays to safe values. */
-	writel_relaxed(0x00000000, CSI_CC_REG);
-	rmwreg(0x00000000, MISC_CC_REG,  0xFEFFF3FF);
-	rmwreg(0x000007FD, MISC_CC2_REG, 0xFFFF7FFF);
-	writel_relaxed(0x80FF0000, GFX2D0_CC_REG);
-	writel_relaxed(0x80FF0000, GFX2D1_CC_REG);
-	writel_relaxed(0x80FF0000, GFX3D_CC_REG);
-	writel_relaxed(0x80FF0000, IJPEG_CC_REG);
-	writel_relaxed(0x80FF0000, JPEGD_CC_REG);
-	/* MDP and PIXEL clocks may be running at boot, don't turn them off. */
-	rmwreg(0x80FF0000, MDP_CC_REG,   BM(31, 29) | BM(23, 16));
-	rmwreg(0x80FF0000, PIXEL_CC_REG, BM(31, 29) | BM(23, 16));
-	writel_relaxed(0x000004FF, PIXEL_CC2_REG);
-	writel_relaxed(0x80FF0000, ROT_CC_REG);
-	writel_relaxed(0x80FF0000, TV_CC_REG);
-	writel_relaxed(0x000004FF, TV_CC2_REG);
-	writel_relaxed(0xC0FF0000, VCODEC_CC_REG);
-	writel_relaxed(0x80FF0000, VFE_CC_REG);
-	writel_relaxed(0x80FF0000, VPE_CC_REG);
-
-	/* De-assert MM AXI resets to all hardware blocks. */
-	writel_relaxed(0, SW_RESET_AXI_REG);
-
-	/* Deassert all MM core resets. */
-	writel_relaxed(0, SW_RESET_CORE_REG);
-
-	/* Reset 3D core once more, with its clock enabled. This can
-	 * eventually be done as part of the GDFS footswitch driver. */
-	clk_set_rate(&gfx3d_clk.c, 27000000);
-	clk_enable(&gfx3d_clk.c);
-	writel_relaxed(BIT(12), SW_RESET_CORE_REG);
-	mb();
-	udelay(5);
-	writel_relaxed(0, SW_RESET_CORE_REG);
-	/* Make sure reset is de-asserted before clock is disabled. */
-	mb();
-	clk_disable(&gfx3d_clk.c);
-
 	/* Enable TSSC and PDM PXO sources. */
 	writel_relaxed(BIT(11), TSSC_CLK_CTL_REG);
 	writel_relaxed(BIT(15), PDM_CLK_NS_REG);
-	/* Set the dsi_byte_clk src to the DSI PHY PLL,
-	 * dsi_esc_clk to PXO/2, and the hdmi_app_clk src to PXO */
-	rmwreg(0x400001, MISC_CC2_REG, 0x424003);
 }
 
 /* Local clock driver initialization. */
@@ -3642,7 +3504,6 @@ void __init msm8660_clock_init(void)
 	/* Initialize rates for clocks that only support one. */
 	clk_set_rate(&pdm_clk.c, 27000000);
 	clk_set_rate(&prng_clk.c, 64000000);
-	clk_set_rate(&mdp_vsync_clk.c, 27000000);
 	clk_set_rate(&tsif_ref_clk.c, 105000);
 	clk_set_rate(&tssc_clk.c, 27000000);
 	clk_set_rate(&usb_hs1_xcvr_clk.c, 60000000);
