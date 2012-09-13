@@ -29,6 +29,8 @@
 
 #include <mach/board.h>
 
+#include "common.h"
+
 #define MSM_CHIP_DEVICE_TYPE(name, chip, mem_type) {			      \
 		.virtual = (unsigned long) MSM_##name##_BASE, \
 		.pfn = __phys_to_pfn(chip##_##name##_PHYS), \
@@ -109,8 +111,6 @@ static struct map_desc msm8x60_io_desc[] __initdata = {
 	MSM_CHIP_DEVICE(QGIC_CPU, MSM8X60),
 	MSM_CHIP_DEVICE(TMR, MSM8X60),
 	MSM_CHIP_DEVICE(TMR0, MSM8X60),
-	MSM_DEVICE(ACC),
-	MSM_DEVICE(GCC),
 #ifdef CONFIG_DEBUG_MSM8660_UART
 	MSM_DEVICE(DEBUG_UART),
 #endif
