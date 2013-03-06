@@ -17,6 +17,12 @@
 #include <asm/mach/arch.h>
 
 #include "common.h"
+#include "clock.h"
+
+static void __init msm8960_init_early(void)
+{
+	msm8960_clock_init();
+}
 
 static void __init msm_dt_init(void)
 {
@@ -31,6 +37,7 @@ static const char * const msm8960_dt_match[] __initconst = {
 DT_MACHINE_START(MSM8960_DT, "Qualcomm MSM (Flattened Device Tree)")
 	.smp = smp_ops(msm_smp_ops),
 	.map_io = msm_map_msm8960_io,
+	.init_early = msm8960_init_early,
 	.init_irq = irqchip_init,
 	.init_time	= msm_dt_timer_init,
 	.init_machine = msm_dt_init,

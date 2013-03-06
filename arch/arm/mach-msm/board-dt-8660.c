@@ -19,6 +19,12 @@
 
 #include <mach/board.h>
 #include "common.h"
+#include "clock.h"
+
+static void __init msm8x60_init_early(void)
+{
+	msm8660_clock_init();
+}
 
 static void __init msm8x60_init_late(void)
 {
@@ -44,6 +50,7 @@ static const char *msm8x60_fluid_match[] __initdata = {
 DT_MACHINE_START(MSM_DT, "Qualcomm MSM (Flattened Device Tree)")
 	.smp = smp_ops(msm_smp_ops),
 	.map_io = msm_map_msm8x60_io,
+	.init_early = msm8x60_init_early,
 	.init_irq = irqchip_init,
 	.init_machine = msm8x60_dt_init,
 	.init_late = msm8x60_init_late,

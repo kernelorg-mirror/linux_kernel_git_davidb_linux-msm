@@ -115,7 +115,7 @@ static void __init msm7x30_init(void)
 static void __init msm7x30_map_io(void)
 {
 	msm_map_msm7x30_io();
-	msm_clock_init(msm_clocks_7x30, msm_num_clocks_7x30);
+	msm7x30_clock_init();
 }
 
 static void __init msm7x30_init_late(void)
