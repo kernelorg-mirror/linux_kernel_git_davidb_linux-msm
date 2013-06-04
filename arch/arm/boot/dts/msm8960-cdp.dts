@@ -7,6 +7,22 @@
 	compatible = "qcom,msm8960-cdp", "qcom,msm8960";
 	interrupt-parent = <&intc>;
 
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "qcom,krait";
+		device_type = "cpu";
+		enable-method = "qcom,kpssv1";
+
+		cpu@0 {
+			reg = <0>;
+		};
+
+		cpu@1 {
+			reg = <1>;
+		};
+	};
+
 	intc: interrupt-controller@2000000 {
 		compatible = "qcom,msm-qgic2";
 		interrupt-controller;
@@ -35,6 +51,12 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		reg = <0xfd510000 0x4000>;
+	};
+
+	kpss@2088000 {
+		compatible = "qcom,kpss";
+		reg = <0x02088000 0x1000
+			0x02098000 0x2000>;
 	};
 
 	serial@16440000 {

@@ -88,6 +88,56 @@ static int __cpuinit scorpion_release_secondary(void)
 	return 0;
 }
 
+static int __cpuinit msm8960_release_secondary(unsigned int cpu)
+{
+	void __iomem *reg;
+	struct device_node *dn = NULL;
+
+	if (cpu == 0 || cpu >= num_possible_cpus())
+		return -EINVAL;
+
+	dn = of_find_compatible_node(dn, NULL, "qcom,kpss");
+	if (!dn) {
+		pr_err("%s : Missing kpss node from device tree\n", __func__);
+		return -ENXIO;
+	}
+
+	reg = of_iomap(dn, cpu);
+	if (!reg)
+		return -ENOMEM;
+
+	pr_debug("Starting secondary CPU %d\n", cpu);
+
+	/* Turn on CPU Rail */
+	writel_relaxed(0xA4, reg+0x1014);
+	mb();
+	udelay(512);
+
+	/* Krait bring-up sequence */
+	writel_relaxed(0x109, reg+0x04);
+	writel_relaxed(0x101, reg+0x04);
+	mb();
+	ndelay(300);
+
+	writel_relaxed(0x121, reg+0x04);
+	mb();
+	udelay(2);
+
+	writel_relaxed(0x120, reg+0x04);
+	mb();
+	udelay(2);
+
+	writel_relaxed(0x100, reg+0x04);
+	mb();
+	udelay(100);
+
+	writel_relaxed(0x180, reg+0x04);
+	mb();
+
+	iounmap(reg);
+	return 0;
+}
+
 static DEFINE_PER_CPU(int, cold_boot_done);
 
 static __cpuinit void boot_cold_cpu(unsigned int cpu)
@@ -108,6 +158,11 @@ static __cpuinit void boot_cold_cpu(unsigned int cpu)
 	} else if (!strcmp(enable_method, "qcom,scss")) {
 		if (per_cpu(cold_boot_done, cpu) == false) {
 			scorpion_release_secondary();
+			per_cpu(cold_boot_done, cpu) = true;
+		}
+	} else if (!strcmp(enable_method, "qcom,kpssv1")) {
+		if (per_cpu(cold_boot_done, cpu) == false) {
+			msm8960_release_secondary(cpu);
 			per_cpu(cold_boot_done, cpu) = true;
 		}
 	} else {
@@ -186,6 +241,8 @@ static void __init msm_smp_init_cpus(void)
 static const int cold_boot_flags[] __initconst = {
 	0,
 	SCM_FLAG_COLDBOOT_CPU1,
+	SCM_FLAG_COLDBOOT_CPU2,
+	SCM_FLAG_COLDBOOT_CPU3,
 };
 
 static void __init msm_smp_prepare_cpus(unsigned int max_cpus)

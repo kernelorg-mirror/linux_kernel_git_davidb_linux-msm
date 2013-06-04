@@ -1,0 +1,16 @@
+* KPSS - Krait Processor Sub-system
+
+Properties
+
+- compatible : Should contain "qcom,kpss".
+
+- reg: Specifies the base address for the KPSS registers used for
+       booting up secondary cores.
+
+Example:
+
+	kpss@2088000 {
+		compatible = "qcom,kpss";
+		reg = <0x02088000 0x1000
+			0x02098000 0x2000>;
+	};
