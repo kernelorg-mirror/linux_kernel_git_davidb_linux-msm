@@ -7,6 +7,22 @@
 	compatible = "qcom,msm8660-surf", "qcom,msm8660";
 	interrupt-parent = <&intc>;
 
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "qcom,scorpion";
+		device_type = "cpu";
+		enable-method = "qcom,scss";
+
+		cpu@0 {
+			reg = <0>;
+		};
+
+		cpu@1 {
+			reg = <1>;
+		};
+	};
+
 	intc: interrupt-controller@2080000 {
 		compatible = "qcom,msm-8660-qgic";
 		interrupt-controller;
@@ -35,6 +51,11 @@
 		interrupts = <0 32 0x4>;
 		interrupt-controller;
 		#interrupt-cells = <2>;
+	};
+
+	scss@902000 {
+		compatible = "qcom,scss";
+		reg = <0x00902000 0x2000>;
 	};
 
 	serial@19c40000 {
