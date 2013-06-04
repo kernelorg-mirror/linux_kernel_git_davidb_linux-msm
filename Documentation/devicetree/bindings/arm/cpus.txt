@@ -45,11 +45,13 @@ For the ARM architecture every CPU node must contain the following properties:
 		"marvell,xsc3"
 		"marvell,xscale"
 		"qcom,scorpion"
+		"qcom,krait"
 - enable-method: Specifies the method used to enable or take the secondary cores
 		 out of reset. This allows different reset sequence for
 		 different types of cpus.
 		 This should be one of:
 		 "qcom,scss"
+		 "qcom,kpssv1"
 
 Example:
 
