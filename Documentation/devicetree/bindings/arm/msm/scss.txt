@@ -1,0 +1,15 @@
+* SCSS - Scorpion Sub-system
+
+Properties
+
+- compatible : Should contain "qcom,scss".
+
+- reg: Specifies the base address for the SCSS registers used for
+       booting up secondary cores.
+
+Example:
+
+	scss@902000 {
+		compatible = "qcom,scss";
+		reg = <0x00902000 0x2000>;
+	};
