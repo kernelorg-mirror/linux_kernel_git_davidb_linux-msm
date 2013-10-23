@@ -5,18 +5,8 @@ comment "Qualcomm MSM SoC Type"
 
 choice
 	prompt "Qualcomm MSM SoC Type"
-	default ARCH_MSM7X00A
+	default ARCH_MSM7X30
 	depends on !ARCH_MSM_DT
-
-config ARCH_MSM7X00A
-	bool "MSM7x00A / MSM7x01A"
-	select ARCH_MSM_ARM11
-	select CPU_V6
-	select GPIO_MSM_V1
-	select MACH_TROUT if !MACH_HALIBUT
-	select MSM_PROC_COMM
-	select MSM_SMD
-	select MSM_SMD_PKG3
 
 config ARCH_MSM7X30
 	bool "MSM7x30"
@@ -70,9 +60,6 @@ config MSM_HAS_DEBUG_UART_HS
 config MSM_SOC_REV_A
 	bool
 
-config  ARCH_MSM_ARM11
-	bool
-
 config  ARCH_MSM_SCORPION
 	bool
 
@@ -81,20 +68,6 @@ config  MSM_VIC
 
 menu "Qualcomm MSM Board Type"
 	depends on !ARCH_MSM_DT
-
-config MACH_HALIBUT
-	depends on ARCH_MSM
-	depends on ARCH_MSM7X00A
-	bool "Halibut Board (QCT SURF7201A)"
-	help
-	  Support for the Qualcomm SURF7201A eval board.
-
-config MACH_TROUT
-	depends on ARCH_MSM
-	depends on ARCH_MSM7X00A
-	bool "HTC Dream (aka trout)"
-	help
-	  Support for the HTC Dream, T-Mobile G1, Android ADP1 devices.
 
 config MACH_MSM7X30_SURF
 	depends on ARCH_MSM7X30
@@ -116,9 +89,6 @@ config MACH_QSD8X50A_ST1_5
 	  Support for the Qualcomm ST1.5.
 
 endmenu
-
-config MSM_SMD_PKG3
-	bool
 
 config MSM_PROC_COMM
 	bool
