@@ -5,19 +5,8 @@ comment "Qualcomm MSM SoC Type"
 
 choice
 	prompt "Qualcomm MSM SoC Type"
-	default ARCH_MSM7X30
+	default ARCH_QSD8X50
 	depends on !ARCH_MSM_DT
-
-config ARCH_MSM7X30
-	bool "MSM7x30"
-	select ARCH_MSM_SCORPION
-	select CPU_V7
-	select GPIO_MSM_V1
-	select MACH_MSM7X30_SURF # if !
-	select MSM_GPIOMUX
-	select MSM_PROC_COMM
-	select MSM_SMD
-	select MSM_VIC
 
 config ARCH_QSD8X50
 	bool "QSD8X50"
@@ -68,12 +57,6 @@ config  MSM_VIC
 
 menu "Qualcomm MSM Board Type"
 	depends on !ARCH_MSM_DT
-
-config MACH_MSM7X30_SURF
-	depends on ARCH_MSM7X30
-	bool "MSM7x30 SURF"
-	help
-	  Support for the Qualcomm MSM7x30 SURF eval board.
 
 config MACH_QSD8X50_SURF
 	depends on ARCH_QSD8X50
